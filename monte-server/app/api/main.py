@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
+from app.services.simulation_service import SimulationService
+from sqlalchemy.orm import Session
+from app.core.database import get_db
+import numpy as np
 import asyncio
 import json
 from datetime import datetime
@@ -17,6 +21,7 @@ from app.core.monte_carlo_simulator import (
 from app.core.database import get_db, create_tables
 from app.models.simulation import SimulationRecord
 from app.services.simulation_service import SimulationService
+from contextlib import asynccontextmanager
 
 # Pydantic models for API
 class SimulationRequest(BaseModel):
@@ -87,9 +92,22 @@ class SimulationManager:
         self.active_simulations: Dict[str, Dict] = {}
         self.websocket_connections: Dict[str, WebSocket] = {}
     
-    async def start_simulation(self, simulation_id: str, params: TradeParameters, websocket: WebSocket):
+    async def start_simulation(self, simulation_id: str, params: TradeParameters, websocket: WebSocket, db: Session):
         """Start a new simulation"""
         simulator = MonteCarloTradingSimulator(params)
+        
+        # Create initial simulation record
+        service = SimulationService(db)
+        await service.create_simulation({
+            "simulation_id": simulation_id,
+            "initial_balance": params.initial_balance,
+            "risk_per_trade_percent": params.risk_per_trade_percent,
+            "risk_reward_ratio": params.risk_reward_ratio,
+            "max_trades_per_day": params.max_trades_per_day,
+            "monthly_cashout_percent": params.monthly_cashout_percent,
+            "win_rate": params.win_rate,
+            "simulation_days": params.simulation_days
+        })
         
         self.active_simulations[simulation_id] = {
             "simulator": simulator,
@@ -138,7 +156,64 @@ class SimulationManager:
         try:
             daily_results, metrics = await task
             
-            # Send final results
+            # Convert NumPy types to regular Python types
+            def convert_numpy_types(obj):
+                if isinstance(obj, np.float64):
+                    return float(obj)
+                if isinstance(obj, dict):
+                    return {k: convert_numpy_types(v) for k, v in obj.items()}
+                if isinstance(obj, list):
+                    return [convert_numpy_types(item) for item in obj]
+                return obj
+            
+            # Save final results to database
+            service = SimulationService(db)
+            await service.save_simulation({
+                "simulation_id": simulation_id,
+                "final_balance": simulator.current_balance,
+                "total_pnl": simulator.current_balance - params.initial_balance,
+                "max_drawdown": simulator.max_drawdown,
+                "total_trades": len(simulator.all_trades),
+                "win_rate_actual": metrics.overall_win_rate,
+                "sharpe_ratio": convert_numpy_types(metrics.sharpe_ratio),
+                "profit_factor": convert_numpy_types(metrics.profit_factor),
+                "daily_results": [
+                    {
+                        "date": r.date.isoformat(),
+                        "starting_balance": r.starting_balance,
+                        "ending_balance": r.ending_balance,
+                        "trades_taken": r.trades_taken,
+                        "wins": r.wins,
+                        "losses": r.losses,
+                        "daily_pnl": r.daily_pnl,
+                        "win_rate": r.win_rate,
+                        "cumulative_pnl": r.cumulative_pnl,
+                        "drawdown": r.drawdown,
+                        "max_drawdown_to_date": r.max_drawdown_to_date
+                    } for r in daily_results
+                ],
+                "metrics": convert_numpy_types({
+                    "total_trades": metrics.total_trades,
+                    "total_wins": metrics.total_wins,
+                    "total_losses": metrics.total_losses,
+                    "overall_win_rate": metrics.overall_win_rate,
+                    "total_pnl": metrics.total_pnl,
+                    "max_drawdown": metrics.max_drawdown,
+                    "max_drawdown_duration": metrics.max_drawdown_duration,
+                    "longest_winning_streak": metrics.longest_winning_streak,
+                    "longest_losing_streak": metrics.longest_losing_streak,
+                    "total_cashout": metrics.total_cashout,
+                    "final_balance": simulator.current_balance,
+                    "sharpe_ratio": metrics.sharpe_ratio,
+                    "profit_factor": metrics.profit_factor,
+                    "average_win": metrics.average_win,
+                    "average_loss": metrics.average_loss,
+                    "largest_win": metrics.largest_win,
+                    "largest_loss": metrics.largest_loss
+                })
+            })
+            
+            # Send final results to WebSocket
             await websocket.send_json({
                 "type": "simulation_complete",
                 "daily_results": [
@@ -218,6 +293,8 @@ class SimulationManager:
 simulation_manager = SimulationManager()
 
 # Lifespan context manager
+from app.core.database import create_tables
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -237,7 +314,7 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],  # React dev server
+    allow_origins=["http://localhost:5173"],  # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -298,7 +375,44 @@ async def get_simulation_status(simulation_id: str):
     }
 
 @app.websocket("/simulation/{simulation_id}/ws")
-async def websocket_endpoint(websocket: WebSocket, simulation_id: str):
+async def websocket_endpoint(websocket: WebSocket, simulation_id: str, db=Depends(get_db)):
+    """WebSocket endpoint for real-time simulation updates"""
+    await websocket.accept()
+    
+    try:
+        # Wait for start message
+        data = await websocket.receive_json()
+        if data.get("type") != "start_simulation":
+            await websocket.send_json({"error": "Expected start_simulation message"})
+            return
+        
+        # Get simulation parameters
+        params_data = data.get("params")
+        if not params_data:
+            await websocket.send_json({"error": "Missing simulation parameters"})
+            return
+        
+        params = TradeParameters(**params_data)
+        
+        # Start simulation with database session
+        await simulation_manager.start_simulation(simulation_id, params, websocket, db)
+        
+    except WebSocketDisconnect:
+        print(f"WebSocket disconnected for simulation {simulation_id}")
+    except Exception as e:
+        await websocket.send_json({"error": str(e)})
+    finally:
+        # Clean up
+        if simulation_id in simulation_manager.active_simulations:
+            simulation = simulation_manager.active_simulations[simulation_id]
+            if simulation["task"]:
+                simulation["task"].cancel()
+        
+        # Remove from active simulations
+        if simulation_id in simulation_manager.active_simulations:
+            del simulation_manager.active_simulations[simulation_id]
+        if simulation_id in simulation_manager.websocket_connections:
+            del simulation_manager.websocket_connections[simulation_id]
     """WebSocket endpoint for real-time simulation updates"""
     await websocket.accept()
     
@@ -330,6 +444,58 @@ async def websocket_endpoint(websocket: WebSocket, simulation_id: str):
             simulation = simulation_manager.active_simulations[simulation_id]
             if simulation["task"]:
                 simulation["task"].cancel()
+        
+        # Save simulation results if they exist
+        try:
+            service = SimulationService(db)
+            # Get the latest results from the simulation
+            simulation = simulation_manager.active_simulations.get(simulation_id)
+            if simulation and simulation.get("simulator"):
+                simulator = simulation["simulator"]
+                # Create results dictionary
+                results = {
+                    "simulation_id": simulation_id,
+                    "initial_balance": simulator.params.initial_balance,
+                    "risk_per_trade_percent": simulator.params.risk_per_trade_percent,
+                    "risk_reward_ratio": simulator.params.risk_reward_ratio,
+                    "max_trades_per_day": simulator.params.max_trades_per_day,
+                    "monthly_cashout_percent": simulator.params.monthly_cashout_percent,
+                    "win_rate": simulator.params.win_rate,
+                    "simulation_days": simulator.params.simulation_days,
+                    "final_balance": simulator.current_balance,
+                    "total_pnl": simulator.current_balance - simulator.params.initial_balance,
+                    "max_drawdown": simulator.max_drawdown,
+                    "total_trades": len(simulator.all_trades),
+                    "win_rate_actual": simulator.win_rate,
+                    "sharpe_ratio": simulator.sharpe_ratio,
+                    "profit_factor": simulator.profit_factor,
+                    "daily_results": simulator.daily_results,
+                    "metrics": {
+                        "total_trades": len(simulator.all_trades),
+                        "total_wins": len([t for t in simulator.all_trades if t["result"] == "win"]),
+                        "total_losses": len([t for t in simulator.all_trades if t["result"] == "loss"]),
+                        "overall_win_rate": simulator.win_rate,
+                        "total_pnl": simulator.current_balance - simulator.params.initial_balance,
+                        "max_drawdown": simulator.max_drawdown,
+                        "max_drawdown_duration": simulator.max_drawdown_duration,
+                        "longest_winning_streak": simulator.max_winning_streak,
+                        "longest_losing_streak": simulator.max_losing_streak,
+                        "total_cashout": simulator.total_cashout,
+                        "final_balance": simulator.current_balance,
+                        "sharpe_ratio": simulator.sharpe_ratio,
+                        "profit_factor": simulator.profit_factor,
+                        "average_win": simulator.average_win,
+                        "average_loss": simulator.average_loss,
+                        "largest_win": simulator.largest_win,
+                        "largest_loss": simulator.largest_loss
+                    }
+                }
+                await service.save_simulation(results)
+                await websocket.send_json({"type": "save_status", "status": "success", "message": "Simulation results saved successfully"})
+        except Exception as e:
+            error_msg = f"Error saving simulation results: {str(e)}"
+            print(error_msg)
+            await websocket.send_json({"type": "save_status", "status": "error", "message": error_msg})
 
 # Database routes (for saving/loading simulations)
 @app.get("/simulations")
