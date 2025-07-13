@@ -4,19 +4,19 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
+/monte-server/build/
+/monte-server/develop-eggs/
+/monte-server/dist/
+/monte-server/downloads/
+/monte-server/eggs/
+/monte-server/.eggs/
+/monte-server/lib/
+/monte-server/lib64/
+/monte-server/parts/
+/monte-server/sdist/
+/monte-server/var/
+/monte-server/wheels/
+/monte-server/*.egg-info/
 .installed.cfg
 *.egg
 
@@ -46,12 +46,12 @@ ehthumbs.db
 Thumbs.db
 
 # React
-/node_modules
-/build
-/dist
-/public/build
-/coverage
-.env.local
+/monte-client/node_modules
+/monte-client/build
+/monte-client/dist
+/monte-client/public/build
+/monte-client/coverage
+/monte-client/.env.local
 .env.development.local
 .env.test.local
 .env.production.local

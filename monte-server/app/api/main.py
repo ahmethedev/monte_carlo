@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends
+from app.api import auth
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from pydantic import BaseModel, Field
@@ -112,7 +113,7 @@ class SimulationManager:
         self.active_simulations[simulation_id] = {
             "simulator": simulator,
             "status": "running",
-            "speed": 1.0,
+            "speed": 0.5,
             "current_day": 0,
             "task": None
         }
@@ -314,11 +315,13 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # React dev server
+    allow_origins=["http://localhost:5173", "http://localhost:5174"],  # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth.router)
 
 # Security
 security = HTTPBearer()
