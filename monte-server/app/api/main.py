@@ -1,5 +1,3 @@
-# backend/app/main.py
-
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
@@ -10,7 +8,6 @@ import json
 from datetime import datetime
 import uuid
 from contextlib import asynccontextmanager
-
 from app.core.monte_carlo_simulator import (
     MonteCarloTradingSimulator, 
     TradeParameters, 
@@ -240,7 +237,7 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React dev server
+    allow_origins=["http://localhost:5174"],  # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
