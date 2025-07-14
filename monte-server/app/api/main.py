@@ -23,6 +23,7 @@ from app.core.database import get_db, create_tables
 from app.models.simulation import SimulationRecord
 from app.services.simulation_service import SimulationService
 from contextlib import asynccontextmanager
+import os
 
 # Pydantic models for API
 class SimulationRequest(BaseModel):
@@ -315,10 +316,10 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174"],  # React dev server
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=os.getenv("CORS_ALLOW_ORIGINS").split(","),
+    allow_credentials=os.getenv("CORS_ALLOW_CREDENTIALS", "True") == "True",
+    allow_methods=os.getenv("CORS_ALLOW_METHODS", "*").split(",") if os.getenv("CORS_ALLOW_METHODS") != "*" else ["*"],
+    allow_headers=os.getenv("CORS_ALLOW_HEADERS", "*").split(",") if os.getenv("CORS_ALLOW_HEADERS") != "*" else ["*"],
 )
 
 app.include_router(auth.router)

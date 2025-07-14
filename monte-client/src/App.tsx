@@ -5,6 +5,7 @@ import { SimulationControls } from './components/SimulationControls';
 import { ProgressTracker } from './components/ProgressTracker';
 import { ChartsPanel } from './components/ChartsPanel';
 import { MetricsPanel } from './components/MetricsPanel';
+import { Navigation } from './components/Navigation';
 
 function App() {
   const { state, startSimulation, controlSimulation, resetSimulation } = useSimulation();
@@ -17,6 +18,7 @@ function App() {
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="space-y-6">
+          <Navigation />
           <SimulationForm
             onStartSimulation={startSimulation}
             isRunning={state.status === 'running' || state.status === 'connecting'}
