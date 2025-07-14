@@ -1,10 +1,5 @@
-import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { DailyResult } from '../types/simulation';
-
-interface ChartsPanelProps {
-  dailyResults: DailyResult[];
-}
+import { ChartsPanelProps, TooltipProps } from '../types';
 
 export function ChartsPanel({ dailyResults }: ChartsPanelProps) {
   if (!dailyResults.length) {
@@ -26,12 +21,12 @@ export function ChartsPanel({ dailyResults }: ChartsPanelProps) {
     cumulativePnl: result.cumulative_pnl,
   }));
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-lg">
           <p className="text-gray-300">{`Day ${label}`}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color }} className="font-medium">
               {`${entry.name}: ${entry.name.includes('$') ? '$' : ''}${typeof entry.value === 'number' ? entry.value.toLocaleString() : entry.value}${entry.name.includes('%') ? '%' : ''}`}
             </p>
@@ -53,7 +48,7 @@ export function ChartsPanel({ dailyResults }: ChartsPanelProps) {
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="day" stroke="#9CA3AF" />
               <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} stroke="#9CA3AF" />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
               <Area 
                 type="monotone" 
                 dataKey="balance" 
@@ -76,7 +71,7 @@ export function ChartsPanel({ dailyResults }: ChartsPanelProps) {
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="day" stroke="#9CA3AF" />
               <YAxis tickFormatter={(value) => `$${value}`} stroke="#9CA3AF" />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
               <Line 
                 type="monotone" 
                 dataKey="dailyPnl" 
@@ -99,7 +94,7 @@ export function ChartsPanel({ dailyResults }: ChartsPanelProps) {
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="day" stroke="#9CA3AF" />
               <YAxis tickFormatter={(value) => `${value.toFixed(1)}%`} stroke="#9CA3AF" />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
               <Area 
                 type="monotone" 
                 dataKey="drawdown" 

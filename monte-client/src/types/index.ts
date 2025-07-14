@@ -51,3 +51,61 @@ export interface SimulationState {
   metrics: SimulationMetrics | null;
   error: string | null;
 }
+
+// Auth Interfaces
+export interface AuthFormProps {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>, email: string, password: string) => void;
+  buttonText: string;
+  title: string;
+  isLoading?: boolean;
+  error?: string;
+  onForgotPassword?: () => void;
+  onSwitchAuthMode?: () => void;
+}
+
+export interface AuthLayoutProps {
+  children: React.ReactNode;
+  subtitle: string;
+}
+
+// Component Props Interfaces
+export interface SimulationFormProps {
+  onStartSimulation: (params: SimulationParams) => void;
+  isRunning: boolean;
+}
+
+export interface SimulationControlsProps {
+  status: string;
+  onControl: (action: string) => void;
+  onReset: () => void;
+}
+
+export interface ProgressTrackerProps {
+  currentDay: number;
+  totalDays: number;
+  status: string;
+  latestResult?: {
+    ending_balance: number;
+    daily_pnl: number;
+    trades_taken: number;
+    win_rate: number;
+  };
+}
+
+export interface ChartsPanelProps {
+  dailyResults: DailyResult[];
+}
+
+export interface MetricsPanelProps {
+  metrics: SimulationMetrics | null;
+}
+
+export interface TooltipProps {
+  active: boolean;
+  payload: Array<{
+    name: string;
+    value: number | string;
+    color: string;
+  }>;
+  label: string;
+}

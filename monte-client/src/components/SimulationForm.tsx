@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { Play, Settings } from 'lucide-react';
-import { SimulationParams } from '../types/simulation';
-
-interface SimulationFormProps {
-  onStartSimulation: (params: SimulationParams) => void;
-  isRunning: boolean;
-}
+import { SimulationParams, SimulationFormProps } from '../types';
 
 export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormProps) {
   const [params, setParams] = useState<SimulationParams>({

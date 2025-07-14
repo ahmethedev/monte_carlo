@@ -1,11 +1,5 @@
-import React from 'react';
 import { Play, Pause, Square, FastForward, Rewind } from 'lucide-react';
-
-interface SimulationControlsProps {
-  status: string;
-  onControl: (action: string) => void;
-  onReset: () => void;
-}
+import { SimulationControlsProps } from '../types';
 
 export function SimulationControls({ status, onControl, onReset }: SimulationControlsProps) {
   if (status === 'idle' || status === 'completed') {

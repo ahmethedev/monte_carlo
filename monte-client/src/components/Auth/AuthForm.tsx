@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button } from '@nextui-org/react';
 import { motion } from 'framer-motion';
+import { AuthFormProps } from '../../types';
 
-interface AuthFormProps {
-  onSubmit: (event: React.FormEvent<HTMLFormElement>, email: string, password: string) => void;
-  buttonText: string;
-  title: string;
-  isLoading?: boolean;
-  error?: string;
-  onForgotPassword?: () => void;
-  onSwitchAuthMode?: () => void;
-}
+
 
 const AuthForm: React.FC<AuthFormProps> = ({ 
   onSubmit, 

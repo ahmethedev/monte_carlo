@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { SimulationParams, SimulationState, DailyResult, SimulationMetrics } from '../types/simulation';
+import { SimulationParams, SimulationState } from '../types';
 import { SimulationAPI } from '../services/api';
 
 export function useSimulation() {
@@ -17,12 +17,12 @@ export function useSimulation() {
 
   const startSimulation = useCallback(async (params: SimulationParams) => {
     try {
-      setState(prev => ({ ...prev, status: 'connecting', error: null }));
+      setState((prev: SimulationState) => ({ ...prev, status: 'connecting', error: null }));
       
       const response = await SimulationAPI.startSimulation(params);
       const simulationId = response.simulation_id;
 
-      setState(prev => ({ 
+      setState((prev: SimulationState) => ({ 
         ...prev, 
         id: simulationId, 
         totalDays: params.simulation_days,

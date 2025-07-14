@@ -1,16 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-interface AuthLayoutProps {
-  children: React.ReactNode;
-  subtitle: string;
-}
+import { AuthLayoutProps } from '../types';
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children, subtitle }) => {
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 z-0 opacity-10">
-        {/* Background Grid Pattern */}
         <div 
           className="absolute inset-0 bg-transparent"
           style={{

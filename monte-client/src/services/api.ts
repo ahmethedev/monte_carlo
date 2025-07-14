@@ -1,6 +1,6 @@
-import { SimulationParams } from '../types/simulation';
+import { SimulationParams } from '../types';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export class SimulationAPI {
   static async startSimulation(params: SimulationParams) {
@@ -56,6 +56,6 @@ export class SimulationAPI {
   }
 
   static createWebSocket(simulationId: string) {
-    return new WebSocket(`ws://localhost:8000/simulation/${simulationId}/ws`);
+    return new WebSocket(`${API_BASE_URL}/simulation/${simulationId}/ws`);
   }
 }

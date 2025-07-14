@@ -1,17 +1,5 @@
-import React from 'react';
 import { Activity, TrendingUp, TrendingDown } from 'lucide-react';
-
-interface ProgressTrackerProps {
-  currentDay: number;
-  totalDays: number;
-  status: string;
-  latestResult?: {
-    ending_balance: number;
-    daily_pnl: number;
-    trades_taken: number;
-    win_rate: number;
-  };
-}
+import { ProgressTrackerProps } from '../types';
 
 export function ProgressTracker({ currentDay, totalDays, status, latestResult }: ProgressTrackerProps) {
   const progress = totalDays > 0 ? (currentDay / totalDays) * 100 : 0;

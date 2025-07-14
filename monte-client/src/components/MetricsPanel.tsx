@@ -1,10 +1,5 @@
-import React from 'react';
 import { TrendingUp, TrendingDown, Target, Award } from 'lucide-react';
-import { SimulationMetrics } from '../types/simulation';
-
-interface MetricsPanelProps {
-  metrics: SimulationMetrics | null;
-}
+import { MetricsPanelProps } from '../types';
 
 export function MetricsPanel({ metrics }: MetricsPanelProps) {
   if (!metrics) {

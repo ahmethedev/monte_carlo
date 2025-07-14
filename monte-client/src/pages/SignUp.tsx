@@ -26,7 +26,7 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <AuthLayout title="Create Account" subtitle="Join the future of algorithmic trading">
+    <AuthLayout subtitle="Join the future of algorithmic trading">
       <AuthForm 
         onSubmit={handleSignUp} 
         buttonText="Sign Up" 
