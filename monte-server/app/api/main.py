@@ -314,6 +314,7 @@ app = FastAPI(
 )
 
 # Add CORS middleware
+#TODO Remove in production ?
 app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("CORS_ALLOW_ORIGINS").split(","),

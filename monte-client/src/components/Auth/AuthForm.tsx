@@ -3,8 +3,6 @@ import { Input, Button } from '@nextui-org/react';
 import { motion } from 'framer-motion';
 import { AuthFormProps } from '../../types';
 
-
-
 const AuthForm: React.FC<AuthFormProps> = ({ 
   onSubmit, 
   buttonText, 
