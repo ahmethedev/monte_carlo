@@ -1,18 +1,17 @@
 import React from 'react';
+import { Sidebar } from '../components/Sidebar';
+import { Header } from '../components/Header';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="min-h-screen bg-black">
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {children}
-            </main>
-            <footer className="bg-gray-900 border-t border-gray-800 mt-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="text-center text-sm text-gray-400">
-                        Monte Carlo Trading Simulator - Professional Trading Analysis Platform
-                    </div>
-                </div>
-            </footer>
+        <div className="flex h-screen bg-black text-white">
+            <Sidebar />
+            <div className="flex-1 flex flex-col overflow-hidden">
+                <Header />
+                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-black p-8">
+                    {children}
+                </main>
+            </div>
         </div>
     );
 };

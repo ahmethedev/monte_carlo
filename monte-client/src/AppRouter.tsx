@@ -3,6 +3,10 @@ import App from './App';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import MainLayout from './layouts/MainLayout';
+import Simulation from './pages/Simulation';
+import Journal from './pages/Journal';
+import Assistant from './pages/Assistant';
+import Profile from './pages/Profile';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
     const token = localStorage.getItem('token');
@@ -24,7 +28,12 @@ const AppRouter = () => {
                             </MainLayout>
                         </PrivateRoute>
                     }
-                />
+                >
+                    <Route index element={<Simulation />} />
+                    <Route path="journal" element={<Journal />} />
+                    <Route path="assistant" element={<Assistant />} />
+                    <Route path="profile" element={<Profile />} />
+                </Route>
             </Routes>
         </Router>
     );
