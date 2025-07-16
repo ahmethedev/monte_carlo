@@ -18,7 +18,7 @@ const SignIn: React.FC = () => {
       const response = await login(email, password);
       console.log('Signed in successfully', response.data);
       localStorage.setItem('token', response.data.access_token);
-      navigate('/');
+      navigate('/app');
     } catch (error) {
       console.error('Sign in failed', error);
       setError('Invalid credentials. Please try again.');

@@ -1,15 +1,15 @@
-import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 
-const MainLayout = ({ children }: { children: React.ReactNode }) => {
+const MainLayout = () => {
     return (
         <div className="flex h-screen bg-black text-white">
             <Sidebar />
             <div className="flex-1 flex flex-col overflow-hidden">
                 <Header />
                 <main className="flex-1 overflow-x-hidden overflow-y-auto bg-black p-8">
-                    {children}
+                    <Outlet />
                 </main>
             </div>
         </div>
