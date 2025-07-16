@@ -34,7 +34,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-slate-900/50">
+    <section id="how-it-works" className="py-24 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
           <div className="inline-flex items-center bg-emerald-600/10 border border-emerald-600/20 rounded-full px-6 py-3 mb-8">
