@@ -21,7 +21,7 @@ const MainLayout = () => {
                 ></div>
             )}
 
-            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-black p-8 pt-24">
+            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-black p-8 pt-10">
                 <Outlet />
             </main>
         </div>
