@@ -23,7 +23,7 @@ export const Header = () => {
   const handleSignOut = () => {
     localStorage.removeItem('token');
     setUser(null);
-    navigate('/signin');
+    navigate('/');
   };
 
   return (
