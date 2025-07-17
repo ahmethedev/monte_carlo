@@ -9,13 +9,18 @@ const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>, email: string, password: string) => {
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>, data: { email: string; password: string; username?: string }) => {
     event.preventDefault();
     setIsLoading(true);
     setError(undefined);
 
     try {
-      await register(email, password);
+      if (!data.username) {
+        setError('Username is required.');
+        setIsLoading(false);
+        return;
+      }
+      await register(data.username, data.email, data.password);
       navigate('/signin');
     } catch (error) {
       console.error('Sign up failed', error);
@@ -28,6 +33,7 @@ const SignUp: React.FC = () => {
   return (
     <AuthLayout subtitle="Join the future of algorithmic trading">
       <AuthForm 
+        formType="signup"
         onSubmit={handleSignUp} 
         buttonText="Sign Up" 
         title="Get Started"

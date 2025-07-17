@@ -2,13 +2,13 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL + '/auth';
 
-export const register = (email: string, password: string) => {
-  return axios.post(`${API_URL}/register`, { email, password });
+export const register = (username: string, email: string, password: string) => {
+  return axios.post(`${API_URL}/register`, { username, email, password });
 };
 
-export const login = (email: string, password: string) => {
+export const login = (username: string, password: string) => {
     const params = new URLSearchParams();
-    params.append('username', email);
+    params.append('username', username);
     params.append('password', password);
     return axios.post(`${API_URL}/token`, params, {
         headers: {

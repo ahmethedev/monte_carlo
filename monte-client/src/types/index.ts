@@ -54,7 +54,8 @@ export interface SimulationState {
 
 // Auth Interfaces
 export interface AuthFormProps {
-  onSubmit: (event: React.FormEvent<HTMLFormElement>, email: string, password: string) => void;
+  formType: 'signin' | 'signup';
+  onSubmit: (event: React.FormEvent<HTMLFormElement>, data: { email: string; password: string; username?: string }) => void;
   buttonText: string;
   title: string;
   isLoading?: boolean;

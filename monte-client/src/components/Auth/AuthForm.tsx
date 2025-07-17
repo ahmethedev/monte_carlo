@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { AuthFormProps } from '../../types';
 
 const AuthForm: React.FC<AuthFormProps> = ({ 
+  formType,
   onSubmit, 
   buttonText, 
   title,
@@ -14,10 +15,15 @@ const AuthForm: React.FC<AuthFormProps> = ({
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(event, email, password);
+    if (formType === 'signup') {
+      onSubmit(event, { email, password, username });
+    } else {
+      onSubmit(event, { email: '', password, username });
+    }
   };
 
   return (
@@ -36,25 +42,69 @@ const AuthForm: React.FC<AuthFormProps> = ({
           </motion.div>
         )}
 
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Input
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            variant="bordered"
-            classNames={{
-              inputWrapper: "bg-gray-900/50 border-gray-700 hover:border-blue-500",
-              label: "text-gray-400",
-              input: "text-white"
-            }}
-          />
-        </motion.div>
+        {formType === 'signup' && (
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Input
+              type="text"
+              placeholder="Choose a username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              variant="bordered"
+              classNames={{
+                inputWrapper: "bg-gray-900/50 border-gray-700 hover:border-blue-500",
+                label: "text-gray-400",
+                input: "text-white"
+              }}
+            />
+          </motion.div>
+        )}
+
+        {formType === 'signup' ? (
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              variant="bordered"
+              classNames={{
+                inputWrapper: "bg-gray-900/50 border-gray-700 hover:border-blue-500",
+                label: "text-gray-400",
+                input: "text-white"
+              }}
+            />
+          </motion.div>
+        ) : (
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              variant="bordered"
+              classNames={{
+                inputWrapper: "bg-gray-900/50 border-gray-700 hover:border-blue-500",
+                label: "text-gray-400",
+                input: "text-white"
+              }}
+            />
+          </motion.div>
+        )}
 
         <motion.div 
           initial={{ opacity: 0, x: -20 }}

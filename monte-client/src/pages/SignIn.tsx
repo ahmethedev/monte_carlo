@@ -9,13 +9,18 @@ const SignIn: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>, email: string, password: string) => {
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>, data: { email: string; password: string; username?: string }) => {
     event.preventDefault();
     setIsLoading(true);
     setError(undefined);
     
     try {
-      const response = await login(email, password);
+      if (!data.username) {
+        setError('Username is required.');
+        setIsLoading(false);
+        return;
+      }
+      const response = await login(data.username, data.password);
       console.log('Signed in successfully', response.data);
       localStorage.setItem('token', response.data.access_token);
       navigate('/app');
@@ -30,6 +35,7 @@ const SignIn: React.FC = () => {
   return (
     <AuthLayout subtitle="Sign in to access your trading dashboard">
       <AuthForm 
+        formType="signin"
         onSubmit={handleSignIn} 
         buttonText="Sign In" 
         title="Secure Sign In"
