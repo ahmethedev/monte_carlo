@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -6,11 +7,25 @@ import Simulation from './pages/Simulation';
 import Journal from './pages/Journal';
 import Assistant from './pages/Assistant';
 import Profile from './pages/Profile';
-import LandingPage from './pages/LandingPage'; // Import LandingPage
+import LandingPage from './pages/LandingPage';
+import { verifyAuth } from './services/authService';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-    const token = localStorage.getItem('token');
-    return token ? children : <Navigate to="/signin" />;
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkAuthentication = async () => {
+            const authed = await verifyAuth();
+            setIsAuthenticated(authed);
+        };
+        checkAuthentication();
+    }, []);
+
+    if (isAuthenticated === null) {
+        return <div>Loading...</div>; // Or a proper loading spinner component
+    }
+
+    return isAuthenticated ? children : <Navigate to="/signin" />;
 };
 
 // This component will prevent logged-in users from accessing public routes

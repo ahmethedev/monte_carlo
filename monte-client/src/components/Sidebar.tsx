@@ -1,11 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { Book, Bot, LineChart, User } from 'lucide-react';
+import { Book, Bot, LineChart } from 'lucide-react';
 
 const navItems = [
   { to: '/app/simulation', icon: LineChart, label: 'Simulation' },
   { to: '/app/journal', icon: Book, label: 'Journal' },
   { to: '/app/assistant', icon: Bot, label: 'Assistant' },
-  { to: '/app/profile', icon: User, label: 'Profile' },
 ];
 
 interface SidebarProps {

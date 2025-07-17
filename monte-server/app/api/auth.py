@@ -23,7 +23,7 @@ class Token(BaseModel):
     token_type: str
 
 @router.post("/register", response_model=Token)
-async def register(user: UserCreate, db: Session = Depends(get_db)):
+def register(user: UserCreate, db: Session = Depends(get_db)):
     existing_user_by_email = db.query(User).filter(User.email == user.email).first()
     if existing_user_by_email:
         raise HTTPException(
@@ -47,7 +47,7 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/token", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(

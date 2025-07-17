@@ -21,8 +21,8 @@ const SignIn: React.FC = () => {
         return;
       }
       const response = await login(data.username, data.password);
-      console.log('Signed in successfully', response.data);
-      localStorage.setItem('token', response.data.access_token);
+      console.log('Signed in successfully', response);
+      localStorage.setItem('token', response.access_token);
       navigate('/app');
     } catch (error) {
       console.error('Sign in failed', error);

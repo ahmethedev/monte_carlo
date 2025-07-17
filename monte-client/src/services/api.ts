@@ -2,60 +2,63 @@ import { SimulationParams } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const authFetch = async (url: string, options: RequestInit = {}) => {
+  const token = localStorage.getItem('token');
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (options.headers) {
+    Object.assign(headers, options.headers);
+  }
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(url, { ...options, headers });
+
+  if (response.status === 401) {
+    // Token is invalid or expired, clear token and redirect to login
+    localStorage.removeItem('token');
+    window.location.href = '/login'; 
+    throw new Error('Session expired');
+  }
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ detail: 'An unknown error occurred' }));
+    throw new Error(errorData.detail || 'Failed to fetch');
+  }
+
+  return response.json();
+};
+
 export class SimulationAPI {
   static async startSimulation(params: SimulationParams) {
-    const response = await fetch(`${API_BASE_URL}/simulation/start`, {
+    return authFetch(`${API_BASE_URL}/simulation/start`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(params),
     });
-    
-    if (!response.ok) {
-      throw new Error('Failed to start simulation');
-    }
-    
-    return response.json();
   }
 
   static async controlSimulation(simulationId: string, action: string) {
-    const response = await fetch(`${API_BASE_URL}/simulation/${simulationId}/control`, {
+    return authFetch(`${API_BASE_URL}/simulation/${simulationId}/control`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({ action }),
     });
-    
-    if (!response.ok) {
-      throw new Error('Failed to control simulation');
-    }
-    
-    return response.json();
   }
 
   static async getSimulationStatus(simulationId: string) {
-    const response = await fetch(`${API_BASE_URL}/simulation/${simulationId}/status`);
-    
-    if (!response.ok) {
-      throw new Error('Failed to get simulation status');
-    }
-    
-    return response.json();
+    return authFetch(`${API_BASE_URL}/simulation/${simulationId}/status`);
   }
 
   static async getSavedSimulations() {
-    const response = await fetch(`${API_BASE_URL}/simulations`);
-    
-    if (!response.ok) {
-      throw new Error('Failed to get saved simulations');
-    }
-    
-    return response.json();
+    return authFetch(`${API_BASE_URL}/simulations`);
   }
 
   static createWebSocket(simulationId: string) {
-    return new WebSocket(`${API_BASE_URL}/simulation/${simulationId}/ws`);
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${wsProtocol}//${API_BASE_URL.replace(/^https?:\/\//, '')}/simulation/${simulationId}/ws`;
+    return new WebSocket(wsUrl);
   }
 }

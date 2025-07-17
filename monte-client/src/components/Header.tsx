@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser } from '../services/authService';
+import { getMe } from '../services/authService';
 import { Menu, X, User as UserIcon, LogOut } from 'lucide-react';
+
+interface User {
+  username: string;
+  email: string;
+}
 
 interface HeaderProps {
   isNavOpen: boolean;
@@ -9,23 +14,31 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ isNavOpen, setIsNavOpen }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      getCurrentUser(token)
-        .then(response => {
-          setUser(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching user:', error);
-          setUser(null);
-        });
+    const fetchUser = async () => {
+      try {
+        const userData = await getMe();
+        setUser(userData);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+        setUser(null);
+        // Optional: redirect to signin if the error indicates an invalid session
+        // The auth services should handle this, but as a fallback:
+        if (localStorage.getItem('token')) {
+            localStorage.removeItem('token');
+            navigate('/signin');
+        }
+      }
+    };
+
+    if (localStorage.getItem('token')) {
+        fetchUser();
     }
-  }, []);
+  }, [navigate]);
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
