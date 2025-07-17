@@ -8,13 +8,18 @@ const navItems = [
   { to: '/app/profile', icon: User, label: 'Profile' },
 ];
 
-export const Sidebar = () => {
+interface SidebarProps {
+  isNavOpen: boolean;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ isNavOpen }) => {
   return (
-    <aside className="w-64 bg-gray-900/50 backdrop-blur-md text-white flex-shrink-0">
+    <aside
+      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-gray-900/80 backdrop-blur-lg text-white transition-transform duration-300 ease-in-out ${isNavOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="p-4">
-        <h1 className="text-2xl font-bold text-white">EdgePro AI</h1>
+        <h2 className="text-xl font-semibold text-white">Menu</h2>
       </div>
-      <nav className="mt-8">
+      <nav className="mt-4">
         <ul>
           {navItems.map((item) => (
             <li key={item.to}>

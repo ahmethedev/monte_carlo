@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../services/authService';
+import { Menu, X, User as UserIcon, LogOut } from 'lucide-react';
 
-export const Header = () => {
+interface HeaderProps {
+  isNavOpen: boolean;
+  setIsNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Header: React.FC<HeaderProps> = ({ isNavOpen, setIsNavOpen }) => {
   const [user, setUser] = useState(null);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,22 +34,42 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-gray-900/50 backdrop-blur-md z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="bg-gray-900/50 backdrop-blur-md z-50 sticky top-0">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
+            <button
+              onClick={() => setIsNavOpen(!isNavOpen)}
+              className="mr-4 text-white"
+            >
+              {isNavOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+            <h1 className="text-2xl font-bold text-white">EdgePro AI</h1>
           </div>
           {user && (
-            <div className="flex items-center">
+            <div className="relative">
               <button
-                onClick={handleSignOut}
-                className="ml-4 px-4 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 flex items-center gap-2"
+                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                className="p-2 rounded-full text-white hover:bg-gray-700"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                Sign Out
+                <UserIcon size={24} />
               </button>
+              {isProfileMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 text-white">
+                  <button
+                    onClick={() => navigate('/app/profile')}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700 flex items-center gap-2"
+                  >
+                    <UserIcon size={16} /> Profile
+                  </button>
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700 flex items-center gap-2"
+                  >
+                    <LogOut size={16} /> Sign Out
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
