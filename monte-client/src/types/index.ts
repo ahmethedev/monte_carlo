@@ -110,3 +110,8 @@ export interface TooltipProps {
   }>;
   label: string;
 }
+
+export interface GlobalStateContextType {
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+}
