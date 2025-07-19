@@ -47,7 +47,7 @@ export function ChartsPanel({ dailyResults }: ChartsPanelProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Balance Evolution */}
       <div className="bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800">
         <h3 className="text-lg font-semibold text-white mb-4">Account Balance Over Time</h3>
