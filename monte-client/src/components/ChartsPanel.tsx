@@ -1,12 +1,10 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, Cell, BarChart, Bar } from 'recharts';
 import { ChartsPanelProps, TooltipProps } from '../types';
-import { useThrottle } from '../hooks/useThrottle'; // Import the throttle hook
+import { useThrottle } from '../hooks/useThrottle';
 import { useMemo, useCallback } from 'react';
 
 export function ChartsPanel({ dailyResults }: ChartsPanelProps) {
-  // Throttle chart updates to 200ms intervals for better performance
-  const throttledDailyResults = useThrottle(dailyResults, 200);
-  
+  const throttledDailyResults = useThrottle(dailyResults, 200);  
   // Memoize chart data to prevent unnecessary recalculations
   const chartData = useMemo(() => {
     return throttledDailyResults.map((result, index) => ({

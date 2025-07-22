@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-// Throttle hook for performance optimization
 export function useThrottle<T>(value: T, delay: number): T {
   const [throttledValue, setThrottledValue] = useState<T>(value);
   const lastExecuted = useRef<number>(Date.now());

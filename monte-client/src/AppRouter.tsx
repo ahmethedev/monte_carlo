@@ -9,6 +9,8 @@ import Assistant from './pages/Assistant';
 import Profile from './pages/Profile';
 import LandingPage from './pages/LandingPage';
 import { verifyAuth } from './services/authService';
+import Loading from './components/Loading';
+import NotFoundPage from './pages/NotFoundPage';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -22,7 +24,7 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
     }, []);
 
     if (isAuthenticated === null) {
-        return <div>Loading...</div>; // Or a proper loading spinner component
+        return <div><Loading></Loading></div>; 
     }
 
     return isAuthenticated ? children : <Navigate to="/signin" />;
@@ -57,7 +59,9 @@ const AppRouter = () => {
                     <Route path="journal" element={<Journal />} />
                     <Route path="assistant" element={<Assistant />} />
                     <Route path="profile" element={<Profile />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Route>
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
     );

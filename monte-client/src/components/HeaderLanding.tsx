@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Menu, X, Brain } from 'lucide-react';
+import { TrendingUp, Menu, X } from 'lucide-react';
 
 const HeaderLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,9 +24,6 @@ const HeaderLanding = () => {
             <div className="relative">
               <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg">
                 <TrendingUp className="w-5 h-5 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center">
-                <Brain className="w-2.5 h-2.5 text-white" />
               </div>
             </div>
             <div className="flex flex-col">

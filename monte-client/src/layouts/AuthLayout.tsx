@@ -21,7 +21,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children, subtitle }) => {
         transition={{ duration: 0.8 }}
         className="text-center mb-8 z-10"
       >
-        <h1 className="text-5xl font-bold tracking-wider">MONTE</h1>
+        <h1 className="text-5xl font-bold tracking-wider">Edge Pro AI</h1>
         <p className="text-lg text-gray-400 mt-2">{subtitle}</p>
       </motion.div>
 
@@ -35,7 +35,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children, subtitle }) => {
       </motion.div>
 
       <div className="absolute bottom-4 text-center text-gray-600 text-sm z-10">
-        <p>&copy; {new Date().getFullYear()} Monte Carlo Trading. All Rights Reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Your AI Trading Mentor</p>
       </div>
     </div>
   );
