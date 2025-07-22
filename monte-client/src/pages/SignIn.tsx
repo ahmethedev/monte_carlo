@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import AuthForm from '../components/Auth/AuthForm';
 import { login } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import AuthLayout from '../layouts/AuthLayout';
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -22,7 +24,7 @@ const SignIn: React.FC = () => {
       }
       const response = await login(data.username, data.password);
       console.log('Signed in successfully', response);
-      localStorage.setItem('token', response.access_token);
+      await authLogin(response.access_token);
       navigate('/app');
     } catch (error) {
       console.error('Sign in failed', error);

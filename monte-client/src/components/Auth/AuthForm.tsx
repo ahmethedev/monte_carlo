@@ -130,7 +130,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           {onForgotPassword && (
             <Button 
               variant="light" 
-              onClick={onForgotPassword}
+              onPress={onForgotPassword}
               className="text-sm text-gray-400 hover:text-white px-0"
             >
               Forgot Password?
@@ -158,7 +158,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <div className="text-center mt-6">
           <Button 
             variant="light" 
-            onClick={onSwitchAuthMode}
+            onPress={onSwitchAuthMode}
             className="text-sm text-gray-400 hover:text-white"
           >
             {buttonText === 'Sign In' ? 'Need an account? Sign Up' : 'Already have an account? Sign In'}
