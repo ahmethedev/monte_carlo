@@ -1,4 +1,6 @@
 export interface SimulationParams {
+  name?: string;
+  description?: string;
   initial_balance: number;
   risk_per_trade_percent: number;
   risk_reward_ratio: number;

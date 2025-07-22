@@ -12,10 +12,12 @@ class TradeOutcome(Enum):
 
 @dataclass
 class TradeParameters:
-    initial_balance: float
-    risk_per_trade_percent: float  # % of balance to risk per trade
-    risk_reward_ratio: float       # R:R ratio (e.g., 1:2 means 1 risk for 2 reward)
-    max_trades_per_day: int
+    name: str = ""
+    description: str = ""
+    initial_balance: float = 0.0
+    risk_per_trade_percent: float = 0.0  # % of balance to risk per trade
+    risk_reward_ratio: float = 0.0       # R:R ratio (e.g., 1:2 means 1 risk for 2 reward)
+    max_trades_per_day: int = 0
     monthly_cashout_percent: float = 0.0  # % of profit to cash out monthly
     win_rate: float = 0.55  # Default win rate (slightly profitable)
     simulation_days: int = 365

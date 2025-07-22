@@ -36,9 +36,11 @@ export function useSimulation() {
 
       ws.onopen = () => {
         setState(prev => ({ ...prev, status: 'running' }));
-        // Send start message with parameters
+        // Send start message with parameters and token
+        const token = localStorage.getItem('token');
         ws.send(JSON.stringify({
           type: 'start_simulation',
+          token: token,
           params: params
         }));
       };

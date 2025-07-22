@@ -2,6 +2,8 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depe
 from app.api import auth
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
+from app.services.auth_service import get_current_user
+from app.models.user import User
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from app.services.simulation_service import SimulationService
@@ -27,6 +29,8 @@ import os
 
 # Pydantic models for API
 class SimulationRequest(BaseModel):
+    name: str = Field("", description="Simulation name")
+    description: str = Field("", description="Simulation description")
     initial_balance: float = Field(..., gt=0, description="Initial trading balance")
     risk_per_trade_percent: float = Field(..., gt=0, le=10, description="Risk per trade as percentage of balance")
     risk_reward_ratio: float = Field(..., gt=0, description="Risk to reward ratio")
@@ -38,6 +42,8 @@ class SimulationRequest(BaseModel):
     class Config:
         schema_extra = {
             "example": {
+                "name": "My Trading Strategy",
+                "description": "Conservative trading approach with 1% risk per trade",
                 "initial_balance": 10000,
                 "risk_per_trade_percent": 1.0,
                 "risk_reward_ratio": 2.0,
@@ -94,7 +100,7 @@ class SimulationManager:
         self.active_simulations: Dict[str, Dict] = {}
         self.websocket_connections: Dict[str, WebSocket] = {}
     
-    async def start_simulation(self, simulation_id: str, params: TradeParameters, websocket: WebSocket, db: Session):
+    async def start_simulation(self, simulation_id: str, params: TradeParameters, websocket: WebSocket, db: Session, user_id: int):
         """Start a new simulation"""
         simulator = MonteCarloTradingSimulator(params)
         
@@ -102,6 +108,9 @@ class SimulationManager:
         service = SimulationService(db)
         await service.create_simulation({
             "simulation_id": simulation_id,
+            "user_id": user_id,
+            "name": getattr(params, 'name', ''),
+            "description": getattr(params, 'description', ''),
             "initial_balance": params.initial_balance,
             "risk_per_trade_percent": params.risk_per_trade_percent,
             "risk_reward_ratio": params.risk_reward_ratio,
@@ -385,10 +394,27 @@ async def websocket_endpoint(websocket: WebSocket, simulation_id: str, db=Depend
     await websocket.accept()
     
     try:
-        # Wait for start message
+        # Wait for start message with auth token
         data = await websocket.receive_json()
         if data.get("type") != "start_simulation":
             await websocket.send_json({"error": "Expected start_simulation message"})
+            return
+        
+        # Authenticate user
+        token = data.get("token")
+        if not token:
+            await websocket.send_json({"error": "Authentication token required"})
+            return
+        
+        try:
+            # Validate token and get user
+            from app.services.auth_service import verify_token
+            user = await verify_token(token, db)
+            if not user:
+                await websocket.send_json({"error": "Invalid authentication token"})
+                return
+        except Exception as e:
+            await websocket.send_json({"error": "Authentication failed"})
             return
         
         # Get simulation parameters
@@ -400,7 +426,7 @@ async def websocket_endpoint(websocket: WebSocket, simulation_id: str, db=Depend
         params = TradeParameters(**params_data)
         
         # Start simulation with database session
-        await simulation_manager.start_simulation(simulation_id, params, websocket, db)
+        await simulation_manager.start_simulation(simulation_id, params, websocket, db, user.id)
         
     except WebSocketDisconnect:
         print(f"WebSocket disconnected for simulation {simulation_id}")
@@ -508,6 +534,12 @@ async def get_saved_simulations(db=Depends(get_db)):
     """Get saved simulation records"""
     service = SimulationService(db)
     return await service.get_all_simulations()
+
+@app.get("/simulations/user")
+async def get_user_simulations(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Get simulations for the current user"""
+    service = SimulationService(db)
+    return await service.get_user_simulations(current_user.id)
 
 @app.post("/simulations/save")
 async def save_simulation(data: dict, db=Depends(get_db)):

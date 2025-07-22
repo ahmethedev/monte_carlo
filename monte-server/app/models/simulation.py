@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Text, JSON, Boolean
+from sqlalchemy import Column, Integer, String, Float, DateTime, Text, JSON, Boolean, ForeignKey
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 class SimulationRecord(Base):
@@ -7,8 +8,12 @@ class SimulationRecord(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     simulation_id = Column(String, unique=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     name = Column(String, nullable=True)
     description = Column(Text, nullable=True)
+    
+    # Relationship
+    user = relationship("User", back_populates="simulations")
     
     # Simulation parameters
     initial_balance = Column(Float, nullable=False)

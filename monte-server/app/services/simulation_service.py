@@ -11,6 +11,7 @@ class SimulationService:
         """Create a new simulation record"""
         simulation = SimulationRecord(
             simulation_id=data["simulation_id"],
+            user_id=data["user_id"],
             name=data.get("name"),
             description=data.get("description"),
             initial_balance=data["initial_balance"],
@@ -63,6 +64,14 @@ class SimulationService:
     async def get_all_simulations(self) -> List[SimulationRecord]:
         """Get all saved simulations"""
         return self.db.query(SimulationRecord).order_by(
+            SimulationRecord.created_at.desc()
+        ).all()
+    
+    async def get_user_simulations(self, user_id: int) -> List[SimulationRecord]:
+        """Get simulations for a specific user"""
+        return self.db.query(SimulationRecord).filter(
+            SimulationRecord.user_id == user_id
+        ).order_by(
             SimulationRecord.created_at.desc()
         ).all()
     

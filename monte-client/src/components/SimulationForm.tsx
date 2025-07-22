@@ -4,6 +4,8 @@ import { SimulationParams, SimulationFormProps } from '../types';
 
 export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormProps) {
   const [params, setParams] = useState<SimulationParams>({
+    name: '',
+    description: '',
     initial_balance: 10000,
     risk_per_trade_percent: 1.0,
     risk_reward_ratio: 2.0,
@@ -18,7 +20,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
     onStartSimulation(params);
   };
 
-  const handleChange = (field: keyof SimulationParams, value: number) => {
+  const handleChange = (field: keyof SimulationParams, value: number | string) => {
     setParams(prev => ({ ...prev, [field]: value }));
   };
 
@@ -30,6 +32,34 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 gap-4 mb-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              Simulation Name
+            </label>
+            <input
+              type="text"
+              value={params.name || ''}
+              onChange={(e) => handleChange('name', e.target.value)}
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter a name for your simulation"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              Description
+            </label>
+            <textarea
+              value={params.description || ''}
+              onChange={(e) => handleChange('description', e.target.value)}
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Describe your simulation strategy"
+              rows={3}
+            />
+          </div>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">

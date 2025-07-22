@@ -56,6 +56,10 @@ export class SimulationAPI {
     return authFetch(`${API_BASE_URL}/simulations`);
   }
 
+  static async getUserSimulations() {
+    return authFetch(`${API_BASE_URL}/simulations/user`);
+  }
+
   static createWebSocket(simulationId: string) {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsUrl = `${wsProtocol}//${API_BASE_URL.replace(/^https?:\/\//, '')}/simulation/${simulationId}/ws`;
