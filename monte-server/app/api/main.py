@@ -1,5 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends
-from app.api import auth
+from app.api import auth, journal
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from app.services.auth_service import get_current_user
@@ -305,11 +305,21 @@ simulation_manager = SimulationManager()
 
 # Lifespan context manager
 from app.core.database import create_tables
+from app.services.subscription_service import SubscriptionService
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     await create_tables()
+    
+    # Initialize default subscription plans
+    from app.core.database import get_db
+    db = next(get_db())
+    try:
+        SubscriptionService.initialize_default_plans(db)
+    finally:
+        db.close()
+    
     yield
     # Shutdown
     pass
@@ -333,6 +343,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(journal.router)
 
 # Security
 security = HTTPBearer()

@@ -4,6 +4,8 @@ import { verifyAuth, getMe } from '../services/authService';
 interface User {
   username: string;
   email: string;
+  subscription_status?: 'free' | 'pro';
+  subscription_expires_at?: string;
 }
 
 interface AuthContextType {
@@ -13,6 +15,8 @@ interface AuthContextType {
   login: (token: string) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
+  hasProAccess: () => boolean;
+  hasFeatureAccess: (feature: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -75,6 +79,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsAuthenticated(false);
   };
 
+  const hasProAccess = (): boolean => {
+    if (!user) return false;
+    return user.subscription_status === 'pro';
+  };
+
+  const hasFeatureAccess = (feature: string): boolean => {
+    if (!user) return false;
+    
+    // Define feature access based on subscription
+    const freeFeatures = ['basic_simulation'];
+    const proFeatures = ['journal', 'unlimited_simulations', 'export_data'];
+    
+    if (freeFeatures.includes(feature)) return true;
+    if (proFeatures.includes(feature)) return hasProAccess();
+    
+    return false;
+  };
+
   useEffect(() => {
     refreshUser();
   }, []);
@@ -85,7 +107,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoading,
     login,
     logout,
-    refreshUser
+    refreshUser,
+    hasProAccess,
+    hasFeatureAccess
   };
 
   return (

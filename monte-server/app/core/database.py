@@ -25,6 +25,8 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 async def create_tables():
+    # Import all models to ensure they are registered with SQLAlchemy
+    from app.models import user, simulation, subscription
     Base.metadata.create_all(bind=engine)
 
 def get_db() -> Generator[Session, None, None]:

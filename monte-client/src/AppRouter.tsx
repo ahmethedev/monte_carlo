@@ -10,6 +10,7 @@ import LandingPage from './pages/LandingPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Loading from './components/Loading';
 import NotFoundPage from './pages/NotFoundPage';
+import ProRoute from './components/ProRoute';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
     const { isAuthenticated, isLoading } = useAuth();
@@ -48,7 +49,11 @@ const AppRouter = () => {
                     >
                         <Route index element={<Navigate to="simulation" replace />} />
                         <Route path="simulation" element={<Simulation />} />
-                        <Route path="journal" element={<Journal />} />
+                        <Route path="journal" element={
+                            <ProRoute feature="journal">
+                                <Journal />
+                            </ProRoute>
+                        } />
                         <Route path="assistant" element={<Assistant />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="*" element={<NotFoundPage />} />
