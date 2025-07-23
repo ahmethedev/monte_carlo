@@ -7,27 +7,27 @@ const steps = [
     icon: Upload,
     title: 'Import Your Data',
     description: 'Upload from any broker - Binance, MT4, Interactive Brokers.',
-    color: 'from-emerald-600 to-emerald-700'
+    color: 'from-blue-600 to-blue-700'
   },
   {
     icon: BarChart3,
     title: 'AI Analysis',
     description: 'Instant performance analysis - win rate, patterns, biases.',
-    color: 'from-emerald-600 to-emerald-700',
+    color: 'from-blue-600 to-blue-700',
     aiPowered: true
   },
   {
     icon: MessageCircle,
     title: 'Chat with AI Mentor',
     description: 'Ask questions, get personalized insights and coaching.',
-    color: 'from-emerald-600 to-emerald-700',
+    color: 'from-blue-600 to-blue-700',
     aiPowered: true
   },
   {
     icon: Zap,
     title: 'Optimize & Simulate',
     description: 'Monte Carlo simulations and actionable improvements.',
-    color: 'from-emerald-600 to-emerald-700',
+    color: 'from-blue-600 to-blue-700',
     aiPowered: true
   }
 ];
@@ -37,10 +37,10 @@ const HowItWorks = () => {
     <section id="how-it-works" className="py-24 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
-          <div className="inline-flex items-center bg-emerald-600/10 border border-emerald-600/20 rounded-full px-6 py-3 mb-8">
-            <Brain className="w-5 h-5 text-emerald-400 mr-2" />
-            <span className="text-emerald-400 text-sm font-bold tracking-wide">AI-POWERED PROCESS</span>
-            <Sparkles className="w-5 h-5 text-emerald-400 ml-2" />
+          <div className="inline-flex items-center bg-blue-600/10 border border-blue-600/20 rounded-full px-6 py-3 mb-8">
+            <Brain className="w-5 h-5 text-blue-400 mr-2" />
+            <span className="text-blue-400 text-sm font-bold tracking-wide">AI-POWERED PROCESS</span>
+            <Sparkles className="w-5 h-5 text-blue-400 ml-2" />
           </div>
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 tracking-tight">
             How EdgePro.ai Works
@@ -58,18 +58,18 @@ const HowItWorks = () => {
                 key={index}
                 className={`group relative rounded-2xl p-8 transition-all duration-300 hover:transform hover:scale-105 ${
                   step.aiPowered 
-                    ? 'bg-gradient-to-br from-emerald-600/10 to-emerald-700/10 border-2 border-emerald-600/30 hover:border-emerald-600/50' 
+                    ? 'bg-gradient-to-br from-blue-600/10 to-blue-700/10 border-2 border-blue-600/30 hover:border-blue-600/50' 
                     : 'bg-slate-800/50 border border-slate-700/50 hover:border-slate-600/50'
                 }`}
               >
                 {/* Step Number */}
-                <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center text-white text-sm font-black shadow-lg">
+                <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-sm font-black shadow-lg">
                   {index + 1}
                 </div>
 
                 {/* AI Badge */}
                 {step.aiPowered && (
-                  <div className="absolute -top-3 -right-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg">
+                  <div className="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg">
                     <div className="flex items-center space-x-1">
                       <Brain className="w-2.5 h-2.5" />
                       <span>AI</span>
@@ -88,7 +88,7 @@ const HowItWorks = () => {
 
                 {/* Connector Line */}
                 {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-emerald-600/50 to-transparent"></div>
+                  <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-600/50 to-transparent"></div>
                 )}
               </div>
             );
@@ -97,12 +97,12 @@ const HowItWorks = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-emerald-600/10 to-emerald-700/10 border border-emerald-600/20 rounded-2xl p-8 max-w-2xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-600/10 to-blue-700/10 border border-blue-600/20 rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-black text-white mb-4">Ready to Meet Your AI Trading Mentor?</h3>
             <p className="text-slate-300 mb-6 font-semibold">Join 250+ traders using AI to improve performance</p>
             <Link 
               to="/signup"
-              className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 font-black text-lg shadow-2xl border border-emerald-500/20"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 font-black text-lg shadow-2xl border border-blue-500/20"
             >
               Start Your AI Journey Now
             </Link>

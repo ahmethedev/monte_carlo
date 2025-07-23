@@ -19,63 +19,107 @@ const UpgradePrompt: React.FC<{ feature?: string }> = ({ feature }) => {
   const featureName = feature ? featureDisplayNames[feature] || feature : 'Pro Features';
 
   return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <Card className="max-w-lg mx-auto">
-        <CardBody className="text-center p-8">
-          <div className="mb-6">
-            <div className="w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full flex items-center justify-center">
-              <LockClosedIcon className="w-8 h-8 text-yellow-600" />
+    <div className="min-h-[80vh] flex items-center justify-center section-padding animate-fade-in">
+      <div className="max-w-2xl mx-auto text-center">
+        {/* Premium Lock Icon */}
+        <div className="relative mb-8">
+          <div className="w-24 h-24 mx-auto bg-gradient-to-br from-warning-500/20 to-warning-600/20 rounded-3xl flex items-center justify-center border border-warning-500/30 shadow-glow">
+            <LockClosedIcon className="w-12 h-12 text-warning-400" />
+          </div>
+          <div className="absolute -inset-2 bg-gradient-to-br from-warning-500/10 to-warning-600/10 rounded-3xl blur opacity-50"></div>
+        </div>
+
+        {/* Header */}
+        <div className="mb-10">
+          <h1 className="text-4xl lg:text-5xl font-black text-neutral-100 mb-4">
+            Unlock <span className="text-gradient">{featureName}</span>
+          </h1>
+          <p className="text-xl text-neutral-300 leading-relaxed max-w-xl mx-auto">
+            This is a Pro feature. Upgrade your account to access {featureName.toLowerCase()} and unlock the full potential of EdgePro.
+          </p>
+        </div>
+
+        {/* Pro Features Grid */}
+        <div className="grid md:grid-cols-2 gap-6 mb-10">
+          <div className="card p-6 text-left">
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-primary-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <StarIcon className="w-5 h-5 text-primary-400" />
+              </div>
+              <div>
+                <h3 className="font-bold text-neutral-100 mb-2">Advanced Trading Journal</h3>
+                <p className="text-sm text-neutral-400">Track, analyze, and optimize your trading performance with detailed analytics and insights.</p>
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              {featureName} - Pro Feature
-            </h2>
-            <p className="text-gray-600">
-              Upgrade to Pro to unlock {featureName.toLowerCase()} and get access to all premium features.
-            </p>
           </div>
 
-          <div className="space-y-3 mb-6">
-            <div className="flex items-center text-sm text-gray-700">
-              <StarIcon className="w-4 h-4 text-yellow-500 mr-2" />
-              Trading Journal with detailed analytics
-            </div>
-            <div className="flex items-center text-sm text-gray-700">
-              <StarIcon className="w-4 h-4 text-yellow-500 mr-2" />
-              Unlimited Monte Carlo simulations
-            </div>
-            <div className="flex items-center text-sm text-gray-700">
-              <StarIcon className="w-4 h-4 text-yellow-500 mr-2" />
-              Export data to CSV/Excel
-            </div>
-            <div className="flex items-center text-sm text-gray-700">
-              <StarIcon className="w-4 h-4 text-yellow-500 mr-2" />
-              Priority customer support
+          <div className="card p-6 text-left">
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-primary-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <StarIcon className="w-5 h-5 text-primary-400" />
+              </div>
+              <div>
+                <h3 className="font-bold text-neutral-100 mb-2">Unlimited Simulations</h3>
+                <p className="text-sm text-neutral-400">Run unlimited Monte Carlo simulations with advanced risk analysis and portfolio optimization.</p>
+              </div>
             </div>
           </div>
 
-          <div className="space-y-3">
-            <Button
-              color="primary"
-              size="lg"
-              className="w-full font-semibold"
-              onClick={() => {
-                // TODO: Redirect to upgrade page
-                console.log('Redirect to upgrade page');
-              }}
-            >
-              Upgrade to Pro - $9.99/month
-            </Button>
-            <Button
-              variant="light"
-              size="sm"
-              className="w-full"
-              onClick={() => window.history.back()}
-            >
-              Go Back
-            </Button>
+          <div className="card p-6 text-left">
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-primary-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <StarIcon className="w-5 h-5 text-primary-400" />
+              </div>
+              <div>
+                <h3 className="font-bold text-neutral-100 mb-2">Data Export & Reports</h3>
+                <p className="text-sm text-neutral-400">Export your analysis to CSV, Excel, and PDF formats for professional reporting.</p>
+              </div>
+            </div>
           </div>
-        </CardBody>
-      </Card>
+
+          <div className="card p-6 text-left">
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-primary-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <StarIcon className="w-5 h-5 text-primary-400" />
+              </div>
+              <div>
+                <h3 className="font-bold text-neutral-100 mb-2">Priority Support</h3>
+                <p className="text-sm text-neutral-400">Get dedicated support with faster response times and direct access to our team.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Pricing Card */}
+        <div className="card-premium p-8 mb-8 max-w-md mx-auto">
+          <div className="text-center mb-6">
+            <div className="text-4xl font-black text-neutral-100 mb-2">$9.99</div>
+            <div className="text-neutral-400 text-sm">per month, billed monthly</div>
+          </div>
+          
+          <button
+            className="btn-primary w-full text-lg py-4 mb-4 shadow-glow hover:shadow-glow-lg"
+            onClick={() => {
+              // TODO: Redirect to upgrade page
+              console.log('Redirect to upgrade page');
+            }}
+          >
+            Upgrade to Pro
+          </button>
+          
+          <div className="text-xs text-neutral-500 text-center">
+            Cancel anytime • No hidden fees • 7-day money-back guarantee
+          </div>
+        </div>
+
+        {/* Back Button */}
+        <button
+          className="btn-ghost"
+          onClick={() => window.history.back()}
+        >
+          ← Go Back
+        </button>
+      </div>
     </div>
   );
 };

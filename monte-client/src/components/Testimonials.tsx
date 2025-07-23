@@ -36,10 +36,10 @@ const Testimonials = () => {
     <section className="py-24 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
-          <div className="inline-flex items-center bg-emerald-600/10 border border-emerald-600/20 rounded-full px-6 py-3 mb-8">
-            <Brain className="w-5 h-5 text-emerald-400 mr-2" />
-            <span className="text-emerald-400 text-sm font-bold tracking-wide">AI SUCCESS STORIES</span>
-            <TrendingUp className="w-5 h-5 text-emerald-400 ml-2" />
+          <div className="inline-flex items-center bg-blue-600/10 border border-blue-600/20 rounded-full px-6 py-3 mb-8">
+            <Brain className="w-5 h-5 text-blue-400 mr-2" />
+            <span className="text-blue-400 text-sm font-bold tracking-wide">AI SUCCESS STORIES</span>
+            <TrendingUp className="w-5 h-5 text-blue-400 ml-2" />
           </div>
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 tracking-tight">
             Trusted by AI-Powered Traders Worldwide
@@ -53,15 +53,15 @@ const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700/50 rounded-2xl p-8 hover:border-emerald-600/30 transition-all duration-300 hover:transform hover:scale-105"
+              className="group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700/50 rounded-2xl p-8 hover:border-blue-600/30 transition-all duration-300 hover:transform hover:scale-105"
             >
               {/* Quote Icon */}
-              <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center shadow-lg">
+              <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-lg">
                 <Quote className="w-5 h-5 text-white" />
               </div>
 
               {/* Profit Badge */}
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs px-3 py-1.5 rounded-full font-bold shadow-lg">
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-3 py-1.5 rounded-full font-bold shadow-lg">
                 {testimonial.profit}
               </div>
 
@@ -78,9 +78,9 @@ const Testimonials = () => {
               </p>
 
               {/* Highlight Badge */}
-              <div className="inline-flex items-center bg-emerald-600/10 border border-emerald-600/20 rounded-full px-4 py-2 mb-6">
-                <Zap className="w-4 h-4 text-emerald-400 mr-2" />
-                <span className="text-emerald-400 text-sm font-bold">{testimonial.highlight}</span>
+              <div className="inline-flex items-center bg-blue-600/10 border border-blue-600/20 rounded-full px-4 py-2 mb-6">
+                <Zap className="w-4 h-4 text-blue-400 mr-2" />
+                <span className="text-blue-400 text-sm font-bold">{testimonial.highlight}</span>
               </div>
 
               {/* Author */}
@@ -98,22 +98,22 @@ const Testimonials = () => {
         </div>
 
         {/* Enhanced Stats */}
-        <div className="mt-20 bg-gradient-to-r from-emerald-600/10 to-emerald-700/10 border border-emerald-600/20 rounded-3xl p-12">
+        <div className="mt-20 bg-gradient-to-r from-blue-600/10 to-blue-700/10 border border-blue-600/20 rounded-3xl p-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-black text-emerald-400 mb-2">250+</div>
+              <div className="text-4xl font-black text-blue-400 mb-2">250+</div>
               <div className="text-slate-300 font-semibold">AI-Powered Traders</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-black text-emerald-400 mb-2">$2.1M+</div>
+              <div className="text-4xl font-black text-blue-400 mb-2">$2.1M+</div>
               <div className="text-slate-300 font-semibold">AI-Optimized Profits</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-black text-emerald-400 mb-2">94%</div>
+              <div className="text-4xl font-black text-blue-400 mb-2">94%</div>
               <div className="text-slate-300 font-semibold">AI Satisfaction Rate</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-black text-emerald-400 mb-2">24/7</div>
+              <div className="text-4xl font-black text-blue-400 mb-2">24/7</div>
               <div className="text-slate-300 font-semibold">AI Mentor Availability</div>
             </div>
           </div>

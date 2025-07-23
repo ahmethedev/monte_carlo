@@ -15,58 +15,60 @@ const HeaderLanding = () => {
   }, []);
 
   return (
-    <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-slate-950/90 backdrop-blur-md border-b border-slate-800/50' : 'bg-transparent'
+    <header className={`fixed w-full top-0 z-50 transition-all duration-500 ${
+      isScrolled ? 'glass-strong border-b border-dark-800/50' : 'bg-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-3">
+      <div className="content-container">
+        <div className="flex justify-between items-center h-18">
+          <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg">
-                <TrendingUp className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
+                <TrendingUp className="w-6 h-6 text-white transform group-hover:scale-110 transition-transform duration-300" />
               </div>
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-black text-white tracking-tight">EdgePro.ai</span>
-              <span className="text-xs text-emerald-400 font-bold -mt-1">AI Trading Mentor</span>
+              <span className="text-2xl font-black text-gradient tracking-tight">EdgePro</span>
+              <span className="text-xs text-primary-400 font-bold -mt-1 tracking-wider">TRADING INTELLIGENCE</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#ai-features" className="text-slate-300 hover:text-emerald-400 transition-colors font-semibold">AI Features</a>
-            <a href="#how-it-works" className="text-slate-300 hover:text-emerald-400 transition-colors font-semibold">How It Works</a>
-            <a href="#early-access" className="text-slate-300 hover:text-emerald-400 transition-colors font-semibold">Beta Access</a>
-            <Link 
-              to="/signup"
-              className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-2.5 rounded-xl transition-all duration-300 transform hover:scale-105 font-black shadow-lg border border-emerald-500/20"
-            >
-              Start Free
+          <nav className="hidden lg:flex items-center space-x-1">
+            <a href="#features" className="btn-ghost text-sm font-medium">Features</a>
+            <a href="#how-it-works" className="btn-ghost text-sm font-medium">How It Works</a>
+            <a href="#pricing" className="btn-ghost text-sm font-medium">Pricing</a>
+            <div className="w-px h-6 bg-dark-700 mx-2"></div>
+            <Link to="/signin" className="btn-ghost text-sm font-medium">Sign In</Link>
+            <Link to="/signup" className="btn-primary text-sm font-semibold ml-2">
+              Start Free Trial
             </Link>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="lg:hidden p-2 rounded-xl bg-dark-800/50 backdrop-blur-sm border border-dark-700 text-neutral-200 hover:bg-dark-700/50 transition-all duration-300"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-b border-slate-800">
-            <nav className="px-4 py-4 space-y-4">
-              <a href="#ai-features" className="block text-slate-300 hover:text-emerald-400 transition-colors font-semibold">AI Features</a>
-              <a href="#how-it-works" className="block text-slate-300 hover:text-emerald-400 transition-colors font-semibold">How It Works</a>
-              <a href="#early-access" className="block text-slate-300 hover:text-emerald-400 transition-colors font-semibold">Beta Access</a>
-              <Link 
-                to="/signup"
-                className="block w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-4 py-2 rounded-xl transition-all duration-300 text-center font-black shadow-lg border border-emerald-500/20"
-              >
-                Start Free
-              </Link>
+          <div className="lg:hidden absolute top-18 left-0 right-0 glass-strong border-b border-dark-800/50 animate-slide-down">
+            <nav className="section-padding py-6 space-y-3">
+              <a href="#features" className="block text-neutral-300 hover:text-primary-400 transition-colors font-medium py-3 border-b border-dark-800/50">Features</a>
+              <a href="#how-it-works" className="block text-neutral-300 hover:text-primary-400 transition-colors font-medium py-3 border-b border-dark-800/50">How It Works</a>
+              <a href="#pricing" className="block text-neutral-300 hover:text-primary-400 transition-colors font-medium py-3 border-b border-dark-800/50">Pricing</a>
+              <div className="pt-4 space-y-3">
+                <Link to="/signin" className="block btn-secondary text-center">
+                  Sign In
+                </Link>
+                <Link to="/signup" className="block btn-primary text-center">
+                  Start Free Trial
+                </Link>
+              </div>
             </nav>
           </div>
         )}
