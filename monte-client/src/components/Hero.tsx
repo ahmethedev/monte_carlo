@@ -15,12 +15,6 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Content */}
           <div className="text-center lg:text-left animate-fade-in">
-            <div className="inline-flex items-center glass border border-primary-600/30 rounded-full px-6 py-3 mb-8 group hover:border-primary-500/50 transition-all duration-300">
-              <Brain className="w-5 h-5 text-primary-400 mr-3 group-hover:scale-110 transition-transform duration-300" />
-              <span className="text-primary-400 text-sm font-bold tracking-widest">MONTE CARLO INTELLIGENCE</span>
-              <Sparkles className="w-5 h-5 text-primary-400 ml-3 group-hover:rotate-12 transition-transform duration-300" />
-            </div>
-            
             <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-[0.9] tracking-tight">
               <span className="text-neutral-100">Master Trading with</span>
               <br />
