@@ -32,7 +32,7 @@ const Simulation = () => {
             onClick={() => setActiveTab('new')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'new'
-                ? 'bg-green-600 text-white'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
             }`}
           >
@@ -43,7 +43,7 @@ const Simulation = () => {
             onClick={() => setActiveTab('saved')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'saved'
-                ? 'bg-green-600 text-white'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
             }`}
           >

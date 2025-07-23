@@ -106,7 +106,7 @@ export const SavedSimulations: React.FC = () => {
   return (
     <div className="bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800">
       <div className="flex items-center gap-2 mb-6">
-        <BarChart3 className="h-5 w-5 text-green-400" />
+        <BarChart3 className="h-5 w-5 text-blue-400" />
         <h2 className="text-xl font-semibold text-white">Saved Simulations</h2>
         <span className="text-sm text-gray-400">({simulations.length} total)</span>
       </div>

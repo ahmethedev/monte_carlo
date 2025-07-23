@@ -27,7 +27,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
   return (
     <div className="bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800">
       <div className="flex items-center gap-2 mb-6">
-        <Settings className="h-5 w-5 text-green-400" />
+        <Settings className="h-5 w-5 text-blue-400" />
         <h2 className="text-xl font-semibold text-white">Simulation Parameters</h2>
       </div>
 
@@ -173,7 +173,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
         <button
           type="submit"
           disabled={isRunning}
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
         >
           <Play className="h-4 w-4" />
           {isRunning ? 'Simulation Running...' : 'Start Simulation'}

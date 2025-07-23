@@ -19,13 +19,11 @@ const Hero = () => {
               <span className="text-neutral-100">Master Trading with</span>
               <br />
               <span className="text-gradient bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 inline-block">
-                Monte Carlo AI
+                AI Mentor
               </span>
             </h1>
             
-            <p className="text-xl lg:text-2xl text-neutral-300 mb-12 leading-relaxed font-medium max-w-2xl">
-              Harness advanced Monte Carlo simulations to predict, optimize, and perfect your trading strategies with precision analytics.
-            </p>
+
 
             <div className="flex flex-col sm:flex-row gap-6 mb-12">
               <Link to="/signup" className="btn-primary text-lg py-4 px-8 group shadow-glow hover:shadow-glow-lg">

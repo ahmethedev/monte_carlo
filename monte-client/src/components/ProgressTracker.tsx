@@ -15,7 +15,7 @@ export function ProgressTracker({ currentDay, totalDays, status, latestResult }:
   return (
     <div className="bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800">
       <div className="flex items-center gap-2 mb-4">
-        <Activity className="h-5 w-5 text-green-400" />
+        <Activity className="h-5 w-5 text-blue-400" />
         <h3 className="text-lg font-semibold text-white">Simulation Progress</h3>
       </div>
       <div className="space-y-4">
