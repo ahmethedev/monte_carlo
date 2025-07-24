@@ -14,7 +14,6 @@ const MainLayout = () => {
 
     const handleSignOut = () => {
         logout();
-        window.location.href = '/';
     };
 
     const navigation = [

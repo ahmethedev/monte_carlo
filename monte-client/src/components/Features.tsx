@@ -4,8 +4,6 @@ import {
   Calendar, 
   Brain, 
   Shuffle, 
-  Shield,
-  Clock,
   Sparkles,
   Zap,
   MessageCircle,

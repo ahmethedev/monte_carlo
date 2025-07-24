@@ -15,7 +15,6 @@ export const Header: React.FC<HeaderProps> = ({ isNavOpen, setIsNavOpen }) => {
 
   const handleSignOut = () => {
     logout();
-    navigate('/');
   };
 
   return (
