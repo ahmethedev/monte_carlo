@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Dict, Any
 import json
 import pandas as pd
+from io import StringIO
 
 from app.core.database import get_db
 from app.models.trading_data import TradingData, TradingAnalysis
@@ -12,6 +13,31 @@ from app.services.auth_service import get_current_user
 from app.services.trading_analysis_service import TradingAnalysisService
 
 router = APIRouter(prefix="/trading", tags=["trading"])
+
+@router.post("/test-csv")
+async def test_csv_upload(file: UploadFile = File(...)):
+    """CSV dosyasını test etmek için basit endpoint"""
+    try:
+        content = await file.read()
+        csv_content = content.decode('utf-8')
+        
+        csv_type = detect_csv_type(csv_content)
+        if not csv_type:
+            return {"error": "Unsupported CSV format", "columns": pd.read_csv(StringIO(csv_content)).columns.tolist()}
+        
+        if csv_type == 'binance_spot':
+            trades = BinanceCSVParser.parse_spot_trading_history(csv_content)
+        elif csv_type == 'binance_futures':
+            trades = BinanceCSVParser.parse_futures_trading_history(csv_content)
+        
+        return {
+            "csv_type": csv_type,
+            "total_trades": len(trades),
+            "sample_trade": trades[0] if trades else None
+        }
+        
+    except Exception as e:
+        return {"error": str(e)}
 
 @router.post("/import-csv")
 async def import_trading_csv(
