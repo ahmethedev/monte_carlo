@@ -110,40 +110,6 @@ const Features = () => {
             );
           })}
         </div>
-
-        {/* AI Capabilities Showcase */}
-        <div className="mt-20 bg-gradient-to-r from-blue-600/10 to-blue-700/10 border border-blue-600/20 rounded-3xl p-12">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-black text-white mb-4">What Makes Our AI Different?</h3>
-            <p className="text-lg text-slate-300 font-semibold">Advanced machine learning trained on millions of trades</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <Shield className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-lg font-black text-white mb-2">Privacy-First AI</h4>
-              <p className="text-slate-300 font-semibold">Your data is encrypted and never shared.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <Clock className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-lg font-black text-white mb-2">Real-time Learning</h4>
-              <p className="text-slate-300 font-semibold">AI adapts its coaching in real-time.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <Brain className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-lg font-black text-white mb-2">Psychology-Aware</h4>
-              <p className="text-slate-300 font-semibold">Understands trading psychology and emotions.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

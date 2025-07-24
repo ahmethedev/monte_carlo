@@ -6,6 +6,7 @@ import { ProgressTracker } from '../components/ProgressTracker';
 import { ChartsPanel } from '../components/ChartsPanel';
 import { MetricsPanel } from '../components/MetricsPanel';
 import { SavedSimulations } from '../components/SavedSimulations';
+import SimulationLimitGate from '../components/SimulationLimitGate';
 import { Play, History } from 'lucide-react';
 
 const Simulation = () => {
@@ -24,7 +25,8 @@ const Simulation = () => {
   }, [state.status]);
 
   return (
-    <div className="flex flex-col items-center gap-8 w-full">
+    <SimulationLimitGate>
+      <div className="flex flex-col items-center gap-8 w-full">
       <div className="w-full max-w-4xl">
         {/* Tab Navigation */}
         <div className="flex space-x-4 mb-6">
@@ -97,7 +99,8 @@ const Simulation = () => {
           )}
         </>
       )}
-    </div>
+      </div>
+    </SimulationLimitGate>
   );
 };
 

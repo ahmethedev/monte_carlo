@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TradingDataUpload from '../components/TradingDataUpload';
 import AnalysisResults from '../components/AnalysisResults';
+import ProFeatureGate from '../components/ProFeatureGate';
 import { BarChart3, Brain, TrendingUp, AlertTriangle, Play, Loader } from 'lucide-react';
 
 const Assistant = () => {
@@ -73,7 +74,12 @@ const Assistant = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-8">
+    <ProFeatureGate
+      feature="ai_assistant"
+      title="AI Trading Assistant"
+      description="Get personalized insights about your trading patterns, psychology, and performance with our GPT-4 powered AI assistant."
+    >
+      <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center space-x-3">
@@ -267,7 +273,8 @@ const Assistant = () => {
           <AnalysisResults analysis={analysisResult} />
         </div>
       )}
-    </div>
+      </div>
+    </ProFeatureGate>
   );
 };
 

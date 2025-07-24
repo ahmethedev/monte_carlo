@@ -6,8 +6,12 @@ import Simulation from './pages/Simulation';
 import Journal from './pages/Journal';
 import Assistant from './pages/Assistant';
 import Profile from './pages/Profile';
+import Pricing from './pages/Pricing';
+import SubscriptionSuccess from './pages/SubscriptionSuccess';
+import SubscriptionCancel from './pages/SubscriptionCancel';
 import LandingPage from './pages/LandingPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import Loading from './components/Loading';
 import NotFoundPage from './pages/NotFoundPage';
 import ProRoute from './components/ProRoute';
@@ -32,11 +36,14 @@ const AppRouter = () => {
     return (
         <Router>
             <AuthProvider>
-                <Routes>
+                <SubscriptionProvider>
+                    <Routes>
                     {/* Public routes */}
                     <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
                     <Route path="/signin" element={<PublicRoute><SignIn /></PublicRoute>} />
                     <Route path="/signup" element={<PublicRoute><SignUp /></PublicRoute>} />
+                    <Route path="/subscription/success" element={<SubscriptionSuccess />} />
+                    <Route path="/subscription/cancel" element={<SubscriptionCancel />} />
 
                     {/* Protected routes */}
                     <Route 
@@ -56,10 +63,12 @@ const AppRouter = () => {
                         } />
                         <Route path="assistant" element={<Assistant />} />
                         <Route path="profile" element={<Profile />} />
+                        <Route path="pricing" element={<Pricing />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
+                </SubscriptionProvider>
             </AuthProvider>
         </Router>
     );

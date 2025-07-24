@@ -9,6 +9,8 @@ from app.services.auth_service import (
     get_current_user
 )
 from app.models.user import User
+from app.models.subscription import SubscriptionPlan
+from app.services.subscription_service import SubscriptionService
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -60,5 +62,30 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/me")
-async def read_users_me(current_user: User = Depends(get_current_user)):
-    return {"username": current_user.username, "email": current_user.email}
+async def read_users_me(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Subscription bilgilerini al
+    subscription = SubscriptionService.get_user_subscription(db, current_user.id)
+    
+    plan_name = "free"
+    plan_display_name = "Free Plan"
+    subscription_status = "inactive"
+    
+    if subscription:
+        plan = db.query(SubscriptionPlan).filter(
+            SubscriptionPlan.id == subscription.plan_id
+        ).first()
+        if plan:
+            plan_name = plan.name
+            plan_display_name = plan.display_name
+        subscription_status = subscription.status
+    
+    return {
+        "username": current_user.username, 
+        "email": current_user.email,
+        "subscription": {
+            "plan": plan_name,
+            "plan_display_name": plan_display_name,
+            "status": subscription_status,
+            "is_pro": plan_name == "pro" and subscription_status == "active"
+        }
+    }

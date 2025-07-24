@@ -4,8 +4,12 @@ import { verifyAuth, getMe } from '../services/authService';
 interface User {
   username: string;
   email: string;
-  subscription_status?: 'free' | 'pro';
-  subscription_expires_at?: string;
+  subscription: {
+    plan: string;
+    plan_display_name: string;
+    status: string;
+    is_pro: boolean;
+  };
 }
 
 interface AuthContextType {
@@ -81,7 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const hasProAccess = (): boolean => {
     if (!user) return false;
-    return user.subscription_status === 'pro';
+    return user.subscription?.is_pro || false;
   };
 
   const hasFeatureAccess = (feature: string): boolean => {
