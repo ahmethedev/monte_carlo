@@ -9,12 +9,10 @@ const Footer = () => {
           <div className="flex items-center space-x-3">
             <div className="relative">
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black text-white tracking-tight">EdgePro.ai</span>
-            </div>
+
           </div>
           <p className="text-slate-400 text-sm font-semibold">
-            © 2025 EdgePro.ai. All rights reserved. Powered by AI.
+            © 2025 EdgePro.ai. All rights reserved.
           </p>
         </div>
       </div>

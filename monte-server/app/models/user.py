@@ -16,3 +16,5 @@ class User(Base):
     # Relationships
     simulations = relationship("SimulationRecord", back_populates="user")
     subscriptions = relationship("UserSubscription", back_populates="user")
+    trading_data = relationship("TradingData", back_populates="user")
+    trading_analyses = relationship("TradingAnalysis", back_populates="user")

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends
-from app.api import auth, journal
+from app.api import auth, journal, trading_import
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from app.services.auth_service import get_current_user
@@ -344,6 +344,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(journal.router)
+app.include_router(trading_import.router, prefix="/api")
 
 # Security
 security = HTTPBearer()

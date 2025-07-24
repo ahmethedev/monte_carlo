@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { TrendingUp, Menu, X, User as UserIcon, LogOut, BarChart3, BookOpen, Bot, Settings } from 'lucide-react';
+import { TrendingUp, User as UserIcon, LogOut, BarChart3, BookOpen, Bot, Settings } from 'lucide-react';
 import Footer from '../components/Footer';
 
 const MainLayout = () => {
@@ -40,7 +40,7 @@ const MainLayout = () => {
                                 <TrendingUp className="w-6 h-6 text-white transform group-hover:scale-110 transition-transform duration-300" />
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-xl font-black text-gradient">EdgePro</span>
+                                <span className="text-xl text-white font-black text-gradient">EdgePro</span>
                                 <span className="text-xs text-primary-400 font-bold -mt-1 tracking-wider">TRADING INTELLIGENCE</span>
                             </div>
                         </Link>

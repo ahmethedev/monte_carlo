@@ -41,7 +41,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="text"
               value={params.name || ''}
               onChange={(e) => handleChange('name', e.target.value)}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Enter a name for your simulation"
             />
           </div>
@@ -53,7 +53,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
             <textarea
               value={params.description || ''}
               onChange={(e) => handleChange('description', e.target.value)}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Describe your simulation strategy"
               rows={3}
             />
@@ -69,7 +69,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="number"
               value={params.initial_balance}
               onChange={(e) => handleChange('initial_balance', Number(e.target.value))}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               min="1000"
               step="100"
               required
@@ -84,7 +84,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="number"
               value={params.risk_per_trade_percent}
               onChange={(e) => handleChange('risk_per_trade_percent', Number(e.target.value))}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               min="0.1"
               max="10"
               step="0.1"
@@ -100,7 +100,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="number"
               value={params.risk_reward_ratio}
               onChange={(e) => handleChange('risk_reward_ratio', Number(e.target.value))}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               min="0.5"
               max="10"
               step="0.1"
@@ -116,7 +116,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="number"
               value={params.max_trades_per_day}
               onChange={(e) => handleChange('max_trades_per_day', Number(e.target.value))}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               min="1"
               max="50"
               required
@@ -131,7 +131,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="number"
               value={params.monthly_cashout_percent}
               onChange={(e) => handleChange('monthly_cashout_percent', Number(e.target.value))}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               min="0"
               max="100"
               step="1"
@@ -146,7 +146,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="number"
               value={params.win_rate}
               onChange={(e) => handleChange('win_rate', Number(e.target.value))}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               min="0.1"
               max="0.99"
               step="0.01"
@@ -162,7 +162,7 @@ export function SimulationForm({ onStartSimulation, isRunning }: SimulationFormP
               type="number"
               value={params.simulation_days}
               onChange={(e) => handleChange('simulation_days', Number(e.target.value))}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               min="30"
               max="1095"
               required
