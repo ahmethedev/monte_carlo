@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Crown, Zap, ArrowRight, Check } from 'lucide-react';
-import { useSubscription } from '../contexts/SubscriptionContext';
+import { useAuth } from '../contexts/AuthContext';
 
 interface ProFeatureGateProps {
   feature: string;
@@ -16,7 +16,8 @@ const ProFeatureGate: React.FC<ProFeatureGateProps> = ({
   description, 
   children 
 }) => {
-  const { isPro, isLoading } = useSubscription();
+  const { hasProAccess, isLoading } = useAuth();
+  const isPro = hasProAccess();
   const navigate = useNavigate();
 
   // Show loading state

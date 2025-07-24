@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useSubscription } from '../contexts/SubscriptionContext';
 import { TrendingUp, User as UserIcon, LogOut, BarChart3, BookOpen, Bot, Settings } from 'lucide-react';
 import Footer from '../components/Footer';
 import SubscriptionBanner from '../components/SubscriptionBanner';
 
 const MainLayout = () => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-    const { user, logout, hasFeatureAccess } = useAuth();
-    const { isPro, plan } = useSubscription();
+    const { user, logout, hasFeatureAccess, hasProAccess } = useAuth();
     const location = useLocation();
 
     const handleSignOut = () => {
@@ -88,11 +86,11 @@ const MainLayout = () => {
                                 <div className="hidden sm:flex flex-col items-end">
                                     <span className="text-sm font-semibold text-neutral-200">{user.username}</span>
                                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                                        isPro 
+                                        hasProAccess() 
                                             ? 'bg-primary-600/20 text-primary-400' 
                                             : 'bg-neutral-700/50 text-neutral-400'
                                     }`}>
-                                        {isPro ? 'Pro' : 'Free'}
+                                        {hasProAccess() ? 'Pro' : 'Free'}
                                     </span>
                                 </div>
                             )}

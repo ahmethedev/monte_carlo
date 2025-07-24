@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Crown, BarChart3, AlertTriangle } from 'lucide-react';
-import { useSubscription } from '../contexts/SubscriptionContext';
+import { useAuth } from '../contexts/AuthContext';
 
 interface SimulationLimitGateProps {
   children: React.ReactNode;
 }
 
 const SimulationLimitGate: React.FC<SimulationLimitGateProps> = ({ children }) => {
-  const { isPro, plan } = useSubscription();
+  const { hasProAccess } = useAuth();
   const [simulationCount, setSimulationCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const SimulationLimitGate: React.FC<SimulationLimitGateProps> = ({ children }) =
   }, []);
 
   // Pro users have unlimited access
-  if (isPro) {
+  if (hasProAccess()) {
     return <>{children}</>;
   }
 

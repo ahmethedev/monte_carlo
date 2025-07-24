@@ -1,10 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Crown, Clock, AlertTriangle, X } from 'lucide-react';
-import { useSubscription } from '../contexts/SubscriptionContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const SubscriptionBanner: React.FC = () => {
-  const { plan, isPro, isTrialActive, trialEnd, status } = useSubscription();
+  const { user, hasProAccess } = useAuth();
+  const plan = user?.subscription?.plan || 'free';
+  const isPro = hasProAccess();
+  // Trial functionality temporarily disabled - using only plan from user data
+  const isTrialActive = false;
+  const trialEnd = null;
+  const status = user?.subscription?.status || 'inactive';
   const navigate = useNavigate();
 
   // Don't show banner if user is on Pro plan and not in trial
@@ -13,7 +19,7 @@ const SubscriptionBanner: React.FC = () => {
   }
 
   // Free user banner
-  if (plan === 'free') {
+  if (!isPro) {
     return (
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-7xl mx-auto px-4 py-3">

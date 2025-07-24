@@ -11,7 +11,6 @@ import SubscriptionSuccess from './pages/SubscriptionSuccess';
 import SubscriptionCancel from './pages/SubscriptionCancel';
 import LandingPage from './pages/LandingPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import Loading from './components/Loading';
 import NotFoundPage from './pages/NotFoundPage';
 import ProRoute from './components/ProRoute';
@@ -36,7 +35,6 @@ const AppRouter = () => {
     return (
         <Router>
             <AuthProvider>
-                <SubscriptionProvider>
                     <Routes>
                     {/* Public routes */}
                     <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
@@ -68,7 +66,6 @@ const AppRouter = () => {
                     </Route>
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
-                </SubscriptionProvider>
             </AuthProvider>
         </Router>
     );

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { verifyAuth, getMe } from '../services/authService';
+import { getMe } from '../services/authService';
 
 interface User {
   username: string;
@@ -52,16 +52,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     try {
-      const isValid = await verifyAuth();
-      if (isValid) {
-        const userData = await getMe();
-        setUser(userData);
-        setIsAuthenticated(true);
-      } else {
-        setUser(null);
-        setIsAuthenticated(false);
-        localStorage.removeItem('token');
-      }
+      const userData = await getMe();
+      setUser(userData);
+      setIsAuthenticated(true);
     } catch (error) {
       console.error('Auth check failed:', error);
       setUser(null);
