@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { Book, Bot, LineChart, CreditCard } from 'lucide-react';
+import { Book, Bot, LineChart, CreditCard, Briefcase } from 'lucide-react';
 
 const navItems = [
   { to: '/app/simulation', icon: LineChart, label: 'Simulation' },
   { to: '/app/journal', icon: Book, label: 'Journal' },
+  { to: '/app/portfolio', icon: Briefcase, label: 'Portfolio' },
   { to: '/app/assistant', icon: Bot, label: 'Assistant' },
   { to: '/app/pricing', icon: CreditCard, label: 'Pricing' },
 ];

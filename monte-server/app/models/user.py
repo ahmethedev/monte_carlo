@@ -18,3 +18,5 @@ class User(Base):
     subscriptions = relationship("UserSubscription", back_populates="user")
     trading_data = relationship("TradingData", back_populates="user")
     trading_analyses = relationship("TradingAnalysis", back_populates="user")
+    portfolio_entries = relationship("PortfolioEntry", back_populates="user")
+    portfolio_snapshots = relationship("PortfolioSnapshot", back_populates="user")

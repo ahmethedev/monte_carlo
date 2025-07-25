@@ -1,5 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends
-from app.api import auth, journal, trading_import, stripe_api, admin
+from app.api import auth, journal, trading_import, stripe_api, admin, portfolio
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from app.services.auth_service import get_current_user
@@ -334,16 +334,21 @@ app = FastAPI(
 
 # Add CORS middleware
 #TODO Remove in production ?
+cors_origins = os.getenv("CORS_ALLOW_ORIGINS", "http://localhost:5173,http://localhost:3000")
+cors_methods = os.getenv("CORS_ALLOW_METHODS", "*")
+cors_headers = os.getenv("CORS_ALLOW_HEADERS", "*")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ALLOW_ORIGINS").split(","),
+    allow_origins=cors_origins.split(",") if cors_origins != "*" else ["*"],
     allow_credentials=os.getenv("CORS_ALLOW_CREDENTIALS", "True") == "True",
-    allow_methods=os.getenv("CORS_ALLOW_METHODS", "*").split(",") if os.getenv("CORS_ALLOW_METHODS") != "*" else ["*"],
-    allow_headers=os.getenv("CORS_ALLOW_HEADERS", "*").split(",") if os.getenv("CORS_ALLOW_HEADERS") != "*" else ["*"],
+    allow_methods=cors_methods.split(",") if cors_methods != "*" else ["*"],
+    allow_headers=cors_headers.split(",") if cors_headers != "*" else ["*"],
 )
 
 app.include_router(auth.router)
 app.include_router(journal.router)
+app.include_router(portfolio.router, prefix="/api")
 app.include_router(trading_import.router, prefix="/api")
 app.include_router(stripe_api.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
@@ -359,6 +364,17 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.now()}
+
+@app.get("/db-health") 
+async def db_health_check(db: Session = Depends(get_db)):
+    """Check database connectivity"""
+    try:
+        # Try a simple query
+        from app.models.user import User
+        db.query(User).first()
+        return {"status": "healthy", "database": "connected", "timestamp": datetime.now()}
+    except Exception as e:
+        return {"status": "unhealthy", "database": "disconnected", "error": str(e), "timestamp": datetime.now()}
 
 @app.post("/simulation/start", response_model=SimulationResponse)
 async def start_simulation(request: SimulationRequest):

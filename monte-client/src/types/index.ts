@@ -117,3 +117,50 @@ export interface GlobalStateContextType {
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
 }
+
+// Portfolio Interfaces
+export interface PortfolioEntry {
+  id: string;
+  date: string;
+  asset: string;
+  amount: number;
+  price: number;
+  total_value: number;
+  notes?: string;
+  created_at: string;
+}
+
+export interface PortfolioAsset {
+  asset: string;
+  total_amount: number;
+  total_invested: number;
+  current_value: number;
+  current_price: number;
+  profit_loss: number;
+  profit_loss_percent: number;
+  percentage_of_portfolio: number;
+}
+
+export interface PortfolioSummary {
+  total_invested: number;
+  current_value: number;
+  total_profit_loss: number;
+  total_profit_loss_percent: number;
+  number_of_assets: number;
+  last_updated: string;
+}
+
+export interface MarketIndex {
+  symbol: string;
+  name: string;
+  current_price: number;
+  price_change_percent: number;
+}
+
+export interface PortfolioPerformanceData {
+  date: string;
+  portfolio_value: number;
+  btc_price?: number;
+  nasdaq_value?: number;
+  bist_value?: number;
+}

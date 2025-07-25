@@ -4,6 +4,7 @@ import SignUp from './pages/SignUp';
 import MainLayout from './layouts/MainLayout';
 import Simulation from './pages/Simulation';
 import Journal from './pages/Journal';
+import Portfolio from './pages/Portfolio';
 import Assistant from './pages/Assistant';
 import Profile from './pages/Profile';
 import Pricing from './pages/Pricing';
@@ -58,6 +59,9 @@ const AppRouter = () => {
                             <ProRoute feature="journal">
                                 <Journal />
                             </ProRoute>
+                        } />
+                        <Route path="portfolio" element={
+                                <Portfolio />
                         } />
                         <Route path="assistant" element={<Assistant />} />
                         <Route path="profile" element={<Profile />} />

@@ -14,9 +14,10 @@ if not DATABASE_URL:
 
 engine = create_engine(
     DATABASE_URL,
-    poolclass=StaticPool,
     pool_pre_ping=True,
     pool_recycle=300,
+    pool_size=10,
+    max_overflow=20,
     echo=True  #TODO Remove in production
 )
 
@@ -26,7 +27,7 @@ Base = declarative_base()
 
 async def create_tables():
     # Import all models to ensure they are registered with SQLAlchemy
-    from app.models import user, simulation, subscription
+    from app.models import user, simulation, subscription, portfolio
     Base.metadata.create_all(bind=engine)
 
 def get_db() -> Generator[Session, None, None]:
