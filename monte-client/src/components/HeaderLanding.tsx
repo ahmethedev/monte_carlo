@@ -22,15 +22,9 @@ const HeaderLanding = () => {
         <div className="flex justify-between items-center h-18">
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
-                <TrendingUp className="w-6 h-6 text-white transform group-hover:scale-110 transition-transform duration-300" />
-              </div>
-              <div className="absolute -inset-1 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <TrendingUp className="h-8 w-8 text-blue-500" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-black text-gradient tracking-tight">EdgePro</span>
-              <span className="text-xs text-primary-400 font-bold -mt-1 tracking-wider">TRADING INTELLIGENCE</span>
-            </div>
+            <span className="text-2xl font-bold text-white">EdgePro.ai</span>
           </Link>
 
           {/* Desktop Navigation */}

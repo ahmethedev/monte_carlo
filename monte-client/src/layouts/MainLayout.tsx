@@ -37,17 +37,14 @@ const MainLayout = () => {
                     <div className="flex items-center justify-between h-18">
                         {/* Logo */}
                         <Link to="/app" className="flex items-center space-x-3 group">
-                            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
-                                <TrendingUp className="w-6 h-6 text-white transform group-hover:scale-110 transition-transform duration-300" />
+                            <div className="relative">
+                                <TrendingUp className="h-8 w-8 text-blue-500" />
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-xl text-white font-black text-gradient">EdgePro</span>
-                                <span className="text-xs text-primary-400 font-bold -mt-1 tracking-wider">TRADING INTELLIGENCE</span>
-                            </div>
+                            <span className="text-2xl font-bold text-white">EdgePro.ai</span>
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <nav className="hidden lg:flex items-center space-x-1">
+                        <nav className="hidden lg:flex items-center space-x-8">
                             {navigation.map((item) => {
                                 const Icon = item.icon;
                                 const isActive = item.current;
@@ -58,23 +55,20 @@ const MainLayout = () => {
                                         key={item.name}
                                         to={item.href}
                                         className={`
-                                            relative flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300
+                                            flex items-center space-x-2 text-sm font-medium transition-colors duration-200
                                             ${isActive 
-                                                ? 'bg-primary-600/20 text-primary-400 shadow-glow' 
+                                                ? 'text-blue-400' 
                                                 : canAccess
-                                                    ? 'text-neutral-300 hover:text-primary-400 hover:bg-slate-800/50'
-                                                    : 'text-neutral-500 hover:text-neutral-400'
+                                                    ? 'text-slate-300 hover:text-white'
+                                                    : 'text-slate-500 hover:text-slate-400'
                                             }
                                             ${!canAccess ? 'cursor-not-allowed' : ''}
                                         `}
                                     >
-                                        <Icon className={`w-4 h-4 ${isActive ? 'text-primary-400' : ''}`} />
+                                        <Icon className={`w-4 h-4 ${isActive ? 'text-blue-400' : ''}`} />
                                         <span>{item.name}</span>
                                         {item.isPro && !item.hasAccess && (
-                                            <div className="w-2 h-2 bg-warning-500 rounded-full animate-pulse"></div>
-                                        )}
-                                        {isActive && (
-                                            <div className="absolute inset-0 bg-primary-600/10 rounded-xl blur"></div>
+                                            <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
                                         )}
                                     </Link>
                                 );
@@ -85,11 +79,11 @@ const MainLayout = () => {
                         <div className="flex items-center space-x-4">
                             {user && (
                                 <div className="hidden sm:flex flex-col items-end">
-                                    <span className="text-sm font-semibold text-neutral-200">{user.username}</span>
+                                    <span className="text-sm font-medium text-slate-200">{user.username}</span>
                                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                                         hasProAccess() 
-                                            ? 'bg-primary-600/20 text-primary-400' 
-                                            : 'bg-neutral-700/50 text-neutral-400'
+                                            ? 'bg-blue-500/20 text-blue-400' 
+                                            : 'bg-slate-700/50 text-slate-400'
                                     }`}>
                                         {hasProAccess() ? 'Pro' : 'Free'}
                                     </span>
@@ -99,7 +93,7 @@ const MainLayout = () => {
                             <div className="relative">
                                 <button
                                     onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                                    className="p-2.5 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700 text-neutral-200 hover:bg-slate-700/50 transition-all duration-300"
+                                    className="p-2 rounded-lg bg-slate-800/50 border border-slate-700 text-slate-200 hover:bg-slate-700/50 transition-colors"
                                 >
                                     <UserIcon className="w-5 h-5" />
                                 </button>
@@ -110,13 +104,13 @@ const MainLayout = () => {
                                             className="fixed inset-0 z-10" 
                                             onClick={() => setIsProfileMenuOpen(false)}
                                         />
-                                        <div className="absolute right-0 mt-2 w-64 glass-strong border border-slate-700/50 rounded-2xl shadow-strong py-2 z-20 animate-slide-down">
-                                            <div className="px-4 py-3 border-b border-slate-800/50">
-                                                <p className="text-sm font-semibold text-neutral-200">{user?.username}</p>
-                                                <p className="text-xs text-neutral-400">{user?.email}</p>
+                                        <div className="absolute right-0 mt-2 w-64 bg-slate-800 border border-slate-700 rounded-lg shadow-xl py-2 z-20">
+                                            <div className="px-4 py-3 border-b border-slate-700">
+                                                <p className="text-sm font-medium text-slate-200">{user?.username}</p>
+                                                <p className="text-xs text-slate-400">{user?.email}</p>
                                             </div>
                                             
-                                            <div className="lg:hidden py-2 border-b border-slate-800/50">
+                                            <div className="lg:hidden py-2 border-b border-slate-700">
                                                 {navigation.map((item) => {
                                                     const Icon = item.icon;
                                                     const canAccess = !item.isPro || item.hasAccess;
@@ -128,10 +122,10 @@ const MainLayout = () => {
                                                             className={`
                                                                 flex items-center space-x-3 px-4 py-3 text-sm font-medium transition-colors
                                                                 ${item.current 
-                                                                    ? 'text-primary-400 bg-primary-600/10' 
+                                                                    ? 'text-blue-400 bg-blue-500/10' 
                                                                     : canAccess
-                                                                        ? 'text-neutral-300 hover:text-primary-400 hover:bg-slate-800/50'
-                                                                        : 'text-neutral-500'
+                                                                        ? 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                                                                        : 'text-slate-500'
                                                                 }
                                                             `}
                                                             onClick={() => setIsProfileMenuOpen(false)}
@@ -139,7 +133,7 @@ const MainLayout = () => {
                                                             <Icon className="w-4 h-4" />
                                                             <span>{item.name}</span>
                                                             {item.isPro && !item.hasAccess && (
-                                                                <div className="w-2 h-2 bg-warning-500 rounded-full animate-pulse ml-auto"></div>
+                                                                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse ml-auto"></div>
                                                             )}
                                                         </Link>
                                                     );
@@ -148,7 +142,7 @@ const MainLayout = () => {
                                             
                                             <button
                                                 onClick={handleSignOut}
-                                                className="w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium text-neutral-300 hover:text-danger-400 hover:bg-danger-600/10 transition-colors"
+                                                className="w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium text-slate-300 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                                             >
                                                 <LogOut className="w-4 h-4" />
                                                 <span>Sign Out</span>
