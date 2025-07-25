@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { TrendingUp, User as UserIcon, LogOut, BarChart3, BookOpen, Bot, Settings } from 'lucide-react';
+import { TrendingUp, User as UserIcon, LogOut, BarChart3, BookOpen, Bot, Settings,Briefcase } from 'lucide-react';
 import Footer from '../components/Footer';
 import SubscriptionBanner from '../components/SubscriptionBanner';
 
@@ -16,6 +16,7 @@ const MainLayout = () => {
 
     const navigation = [
         { name: 'Simulation', href: '/app/simulation', icon: BarChart3, current: location.pathname === '/app/simulation' },
+        { name: 'Portfolio', href: '/app/portfolio', icon: Briefcase, current: location.pathname === '/app/portfolio' },
         { 
             name: 'Journal', 
             href: '/app/journal', 
