@@ -21,13 +21,19 @@ export const login = async (username: string, password: string) => {
   return response.json();
 };
 
-export const register = async (username: string, email: string, password: string) => {
+export const register = async (username: string, email: string, password: string, termsAccepted: boolean = false, privacyAccepted: boolean = false) => {
     const response = await fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ 
+            username, 
+            email, 
+            password,
+            terms_accepted: termsAccepted,
+            privacy_accepted: privacyAccepted
+        }),
     });
 
     if (!response.ok) {
@@ -83,6 +89,62 @@ export const getMe = async () => {
 
     if (!response.ok) {
         throw new Error('Failed to fetch user data');
+    }
+
+    return response.json();
+};
+
+const LEGAL_API_URL = import.meta.env.VITE_API_BASE_URL + '/legal';
+
+export const getTermsStatus = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('No token found');
+    }
+
+    const response = await fetch(`${LEGAL_API_URL}/terms-status`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch terms status');
+    }
+
+    return response.json();
+};
+
+export const acceptTerms = async (acceptTerms: boolean, acceptPrivacy: boolean) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('No token found');
+    }
+
+    const response = await fetch(`${LEGAL_API_URL}/accept-terms`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            accept_terms: acceptTerms,
+            accept_privacy: acceptPrivacy
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to accept terms');
+    }
+
+    return response.json();
+};
+
+export const getTermsContent = async () => {
+    const response = await fetch(`${LEGAL_API_URL}/terms-content`);
+    
+    if (!response.ok) {
+        throw new Error('Failed to fetch terms content');
     }
 
     return response.json();

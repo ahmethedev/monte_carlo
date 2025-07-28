@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Input, Button } from '@nextui-org/react';
 import { motion } from 'framer-motion';
 import { AuthFormProps } from '../../types';
+import TermsAcceptance from '../Legal/TermsAcceptance';
 
 const AuthForm: React.FC<AuthFormProps> = ({ 
   formType,
@@ -16,14 +17,21 @@ const AuthForm: React.FC<AuthFormProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formType === 'signup') {
-      onSubmit(event, { email, password, username });
+      onSubmit(event, { email, password, username, termsAccepted, privacyAccepted });
     } else {
       onSubmit(event, { email: '', password, username });
     }
+  };
+
+  const handleTermsAcceptance = (terms: boolean, privacy: boolean) => {
+    setTermsAccepted(terms);
+    setPrivacyAccepted(privacy);
   };
 
   return (
@@ -126,6 +134,19 @@ const AuthForm: React.FC<AuthFormProps> = ({
           />
         </motion.div>
 
+        {formType === 'signup' && (
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <TermsAcceptance 
+              onAcceptance={handleTermsAcceptance}
+              className="mb-4"
+            />
+          </motion.div>
+        )}
+
         <div className="flex items-center justify-between">
           {onForgotPassword && (
             <Button 
@@ -148,7 +169,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
             color="primary" 
             fullWidth 
             isLoading={isLoading}
-            className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg"
+            isDisabled={formType === 'signup' && (!termsAccepted || !privacyAccepted)}
+            className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg disabled:opacity-50"
           >
             {buttonText}
           </Button>

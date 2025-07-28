@@ -9,7 +9,7 @@ const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>, data: { email: string; password: string; username?: string }) => {
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>, data: { email: string; password: string; username?: string; termsAccepted?: boolean; privacyAccepted?: boolean }) => {
     event.preventDefault();
     setIsLoading(true);
     setError(undefined);
@@ -20,7 +20,7 @@ const SignUp: React.FC = () => {
         setIsLoading(false);
         return;
       }
-      await register(data.username, data.email, data.password);
+      await register(data.username, data.email, data.password, data.termsAccepted || false, data.privacyAccepted || false);
       navigate('/signin');
     } catch (error) {
       console.error('Sign up failed', error);

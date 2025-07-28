@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from datetime import datetime
 from app.core.database import get_db
 from app.services.auth_service import (
     verify_password,
@@ -19,6 +20,8 @@ class UserCreate(BaseModel):
     username: str
     email: str
     password: str
+    terms_accepted: bool = False
+    privacy_accepted: bool = False
 
 class Token(BaseModel):
     access_token: str
@@ -40,7 +43,17 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         )
     
     hashed_password = get_password_hash(user.password)
-    db_user = User(username=user.username, email=user.email, hashed_password=hashed_password)
+    current_time = datetime.utcnow() if user.terms_accepted and user.privacy_accepted else None
+    
+    db_user = User(
+        username=user.username, 
+        email=user.email, 
+        hashed_password=hashed_password,
+        terms_accepted=user.terms_accepted,
+        privacy_accepted=user.privacy_accepted,
+        terms_accepted_at=current_time if user.terms_accepted else None,
+        privacy_accepted_at=current_time if user.privacy_accepted else None
+    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

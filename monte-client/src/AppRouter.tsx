@@ -11,6 +11,8 @@ import Pricing from './pages/Pricing';
 import SubscriptionSuccess from './pages/SubscriptionSuccess';
 import SubscriptionCancel from './pages/SubscriptionCancel';
 import LandingPage from './pages/LandingPage';
+import TermsOfService from './components/Legal/TermsOfService';
+import PrivacyPolicy from './components/Legal/PrivacyPolicy';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Loading from './components/Loading';
 import NotFoundPage from './pages/NotFoundPage';
@@ -41,6 +43,8 @@ const AppRouter = () => {
                     <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
                     <Route path="/signin" element={<PublicRoute><SignIn /></PublicRoute>} />
                     <Route path="/signup" element={<PublicRoute><SignUp /></PublicRoute>} />
+                    <Route path="/terms-of-service" element={<TermsOfService />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                     <Route path="/subscription/success" element={<SubscriptionSuccess />} />
                     <Route path="/subscription/cancel" element={<SubscriptionCancel />} />
 
