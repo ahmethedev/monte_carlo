@@ -15,7 +15,8 @@ const MainLayout = () => {
     };
 
     const navigation = [
-        { name: 'Simulation', href: '/app/simulation', icon: BarChart3, current: location.pathname === '/app/simulation' },
+        { name: 'Dashboard', href: '/app', icon: BarChart3, current: location.pathname === '/app' || location.pathname === '/app/dashboard' },
+        { name: 'Simulation', href: '/app/simulation', icon: TrendingUp, current: location.pathname === '/app/simulation' },
         { name: 'Portfolio', href: '/app/portfolio', icon: Briefcase, current: location.pathname === '/app/portfolio' },
         { 
             name: 'Journal', 

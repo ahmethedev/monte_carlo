@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import MainLayout from './layouts/MainLayout';
+import Dashboard from './pages/Dashboard';
 import Simulation from './pages/Simulation';
 import Journal from './pages/Journal';
 import Portfolio from './pages/Portfolio';
@@ -57,7 +58,8 @@ const AppRouter = () => {
                             </PrivateRoute>
                         }
                     >
-                        <Route index element={<Navigate to="simulation" replace />} />
+                        <Route index element={<Dashboard />} />
+                        <Route path="dashboard" element={<Dashboard />} />
                         <Route path="simulation" element={<Simulation />} />
                         <Route path="journal" element={
                             <ProRoute feature="journal">
