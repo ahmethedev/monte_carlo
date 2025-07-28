@@ -169,7 +169,7 @@ export const PortfolioPerformanceChart = () => {
 
       <Card className="bg-gray-800/50 border-gray-700">
         <CardBody className="p-4">
-          <div className="h-80">
+          <div className="h-96">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={normalizedData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />

@@ -9,7 +9,7 @@ const Portfolio = () => {
   const [selectedTab, setSelectedTab] = useState('overview');
 
   return (
-    <div className="text-white p-6">
+    <div className="text-white p-4 max-w-7xl mx-auto">
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">Portfolio</h1>
         <p className="text-gray-400">Track your investments and performance</p>
@@ -17,7 +17,7 @@ const Portfolio = () => {
 
       <PortfolioSummary />
 
-      <div className="mt-8">
+      <div className="mt-6">
         <Tabs 
           selectedKey={selectedTab} 
           onSelectionChange={(key) => setSelectedTab(key as string)}
@@ -30,27 +30,21 @@ const Portfolio = () => {
           }}
         >
           <Tab key="overview" title="Overview">
-            <Card className="bg-gray-800/50 border-gray-700 mt-4">
-              <CardBody>
-                <PortfolioTable />
-              </CardBody>
-            </Card>
+            <div className="mt-4">
+              <PortfolioTable />
+            </div>
           </Tab>
           
           <Tab key="allocation" title="Asset Allocation">
-            <Card className="bg-gray-800/50 border-gray-700 mt-4">
-              <CardBody>
-                <PortfolioPieChart />
-              </CardBody>
-            </Card>
+            <div className="mt-4">
+              <PortfolioPieChart />
+            </div>
           </Tab>
           
           <Tab key="performance" title="Performance">
-            <Card className="bg-gray-800/50 border-gray-700 mt-4">
-              <CardBody>
-                <PortfolioPerformanceChart />
-              </CardBody>
-            </Card>
+            <div className="mt-4">
+              <PortfolioPerformanceChart />
+            </div>
           </Tab>
         </Tabs>
       </div>

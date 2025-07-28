@@ -94,15 +94,15 @@ export const PortfolioPieChart = () => {
     <div>
       <h2 className="text-xl font-semibold text-white mb-6">Asset Allocation</h2>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="h-80">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 h-96">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={chartData}
                 cx="50%"
                 cy="50%"
-                outerRadius={100}
+                outerRadius={140}
                 fill="#8884d8"
                 dataKey="value"
                 label={({ percentage }) => `${percentage.toFixed(1)}%`}
