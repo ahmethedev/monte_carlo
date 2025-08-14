@@ -12,8 +12,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
-  Textarea,
   useDisclosure
 } from '@nextui-org/react';
 import { Plus, TrendingUp, TrendingDown } from 'lucide-react';
@@ -102,25 +100,27 @@ export const PortfolioTable = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-white">Portfolio Entries</h2>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 sm:mb-6">
+        <h2 className="text-lg sm:text-xl font-semibold text-white">Portfolio Entries</h2>
         <Button
-          color="primary"
+          className="btn-primary w-full sm:w-auto"
           onPress={onOpen}
           startContent={<Plus className="w-4 h-4" />}
         >
-          Add Entry
+          <span className="hidden sm:inline">Add Entry</span>
+          <span className="sm:hidden">Add</span>
         </Button>
       </div>
 
-      <Table
-        aria-label="Portfolio entries table"
-        classNames={{
-          wrapper: "bg-gray-800/50 border border-gray-700",
-          th: "bg-gray-700/50 text-gray-300",
-          td: "text-white"
-        }}
-      >
+      <div className="overflow-x-auto">
+        <Table
+          aria-label="Portfolio entries table"
+          classNames={{
+            wrapper: "bg-gray-800/50 border border-gray-700 min-w-full",
+            th: "bg-gray-700/50 text-gray-300 text-xs sm:text-sm",
+            td: "text-white text-xs sm:text-sm"
+          }}
+        >
         <TableHeader>
           <TableColumn>Date</TableColumn>
           <TableColumn>Asset</TableColumn>
@@ -198,16 +198,19 @@ export const PortfolioTable = () => {
             })
           )}
         </TableBody>
-      </Table>
+        </Table>
+      </div>
 
       <Modal 
         isOpen={isOpen} 
         onOpenChange={onOpenChange}
+        size="md"
+        placement="center"
         classNames={{
-          base: "bg-gray-800 border border-gray-700",
-          header: "text-white",
-          body: "text-white",
-          footer: "border-t border-gray-700"
+          base: "bg-gray-900/95 border border-gray-700/50 backdrop-blur-xl mx-4",
+          header: "text-white border-b border-gray-700/50 pb-3",
+          body: "text-white py-4",
+          footer: "border-t border-gray-700/50 pt-4"
         }}
       >
         <ModalContent>
@@ -215,58 +218,69 @@ export const PortfolioTable = () => {
             <>
               <ModalHeader className="flex flex-col gap-1">Add Portfolio Entry</ModalHeader>
               <ModalBody>
-                <Input
-                  label="Asset Symbol"
-                  placeholder="e.g., BTC, ETH, AAPL"
-                  value={newEntry.asset}
-                  onChange={(e) => setNewEntry({ ...newEntry, asset: e.target.value })}
-                  classNames={{
-                    input: "text-white",
-                    label: "text-gray-300"
-                  }}
-                />
-                <Input
-                  label="Amount"
-                  placeholder="0.00"
-                  type="number"
-                  step="any"
-                  value={newEntry.amount}
-                  onChange={(e) => setNewEntry({ ...newEntry, amount: e.target.value })}
-                  classNames={{
-                    input: "text-white",
-                    label: "text-gray-300"
-                  }}
-                />
-                <Input
-                  label="Purchase Price"
-                  placeholder="0.00"
-                  type="number"
-                  step="any"
-                  value={newEntry.price}
-                  onChange={(e) => setNewEntry({ ...newEntry, price: e.target.value })}
-                  classNames={{
-                    input: "text-white",
-                    label: "text-gray-300"
-                  }}
-                />
-                <Textarea
-                  label="Notes (Optional)"
-                  placeholder="Add any notes about this investment"
-                  value={newEntry.notes}
-                  onChange={(e) => setNewEntry({ ...newEntry, notes: e.target.value })}
-                  classNames={{
-                    input: "text-white",
-                    label: "text-gray-300"
-                  }}
-                />
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <label className="text-gray-300 text-sm font-medium mb-2 block">Asset Symbol</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., BTC, ETH, AAPL"
+                      value={newEntry.asset}
+                      onChange={(e) => setNewEntry({ ...newEntry, asset: e.target.value })}
+                      className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600/50 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/20 hover:border-gray-500/70 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-gray-300 text-sm font-medium mb-2 block">Amount</label>
+                    <input
+                      type="number"
+                      step="any"
+                      placeholder="0.00"
+                      value={newEntry.amount}
+                      onChange={(e) => setNewEntry({ ...newEntry, amount: e.target.value })}
+                      className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600/50 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/20 hover:border-gray-500/70 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-gray-300 text-sm font-medium mb-2 block">Purchase Price (USD)</label>
+                    <input
+                      type="number"
+                      step="any"
+                      placeholder="0.00"
+                      value={newEntry.price}
+                      onChange={(e) => setNewEntry({ ...newEntry, price: e.target.value })}
+                      className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600/50 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/20 hover:border-gray-500/70 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-gray-300 text-sm font-medium mb-2 block">Notes (Optional)</label>
+                    <textarea
+                      placeholder="Add any notes about this investment"
+                      value={newEntry.notes}
+                      onChange={(e) => setNewEntry({ ...newEntry, notes: e.target.value })}
+                      rows={3}
+                      className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600/50 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/20 hover:border-gray-500/70 transition-colors resize-none"
+                    />
+                  </div>
+                </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button color="primary" onPress={handleAddEntry}>
-                  Add Entry
-                </Button>
+                <div className="flex gap-3 w-full sm:w-auto sm:justify-end">
+                  <Button 
+                    color="danger" 
+                    variant="light" 
+                    onPress={onClose}
+                    className="flex-1 sm:flex-initial"
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    className="btn-primary flex-1 sm:flex-initial" 
+                    onPress={handleAddEntry}
+                    isDisabled={!newEntry.asset || !newEntry.amount || !newEntry.price}
+                  >
+                    Add Entry
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}
